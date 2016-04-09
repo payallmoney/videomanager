@@ -4,8 +4,11 @@ angular.module('videosystem.main', ['ngRoute', 'ui.bootstrap'])
 
     .config(['$routeProvider','$sceProvider', function ($routeProvider,$sceProvider) {
         $routeProvider.when('/main', {
-            templateUrl: '/app/main/main.html',
+            templateUrl: '/app/admin/main/main.html',
             controller: 'MainCtrl'
+        }).when('/login', {
+            templateUrl: '/app/admin/login/login.html',
+            controller: 'LoginCtrl'
         });
     }])
 
@@ -19,7 +22,7 @@ angular.module('videosystem.main', ['ngRoute', 'ui.bootstrap'])
         //视频列表
         $scope.videolist = [];
         $scope.videomap = {};
-        $http.get("/video/list").then(function(ret){
+        $http.get("/admin/video/list").then(function(ret){
             console.log(ret.data);
             $scope.videolist = ret.data;
             for(var i = 0 ;i < $scope.videolist.length;i++){
@@ -110,18 +113,18 @@ angular.module('videosystem.main', ['ngRoute', 'ui.bootstrap'])
         $scope.menu = [
             {
                 "text": '视频管理',
-                "js": "/app/videomanager/videomanager.js",
-                'html': '/app/videomanager/videomanager.html'
+                "js": "/app/admin/videomanager/videomanager.js",
+                'html': '/app/admin/videomanager/videomanager.html'
             },
             {
                 "text": '客户端管理',
-                "js": "/app/clientmanager/clientmanager.js",
-                'html': '/app/clientmanager/clientmanager.html'
+                "js": "/app/admin/clientmanager/clientmanager.js",
+                'html': '/app/admin/clientmanager/clientmanager.html'
             },
             {
                 "text": '客户端程序管理',
-                "js": "/app/program/page.js",
-                'html': '/app/program/page.html'
+                "js": "/app/admin/program/page.js",
+                'html': '/app/admin/program/page.html'
             }];
         $scope.loadTab($scope.menu[0]);
     });

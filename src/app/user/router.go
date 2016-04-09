@@ -1,4 +1,4 @@
-package video
+package user
 
 import (
 	"github.com/go-martini/martini"

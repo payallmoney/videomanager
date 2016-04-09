@@ -10,3 +10,5 @@ config.ini
 /sharego.iml
 /client.log
 /static/program
+/videomanager.iml
+/src/gin-bin.exe

@@ -1,4 +1,4 @@
-package video
+package admin
 
 import (
 	"github.com/go-martini/martini"
@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
-	"github.com/payallmoney/videomanager/util"
+	"github.com/payallmoney/videomanager/src/util"
 
 	"fmt"
 	"path/filepath"

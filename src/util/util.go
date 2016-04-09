@@ -8,11 +8,13 @@ import (
 	"io"
 	"runtime/debug"
 	"reflect"
-"strings"
+	"strings"
 	"strconv"
 	"math"
+	"io/ioutil"
+	"gopkg.in/mgo.v2/bson"
+	"net/http"
 )
-
 
 func CheckErr(err error) {
 	var rootpath, _ = filepath.Abs(filepath.Dir(os.Args[0]))
@@ -59,21 +61,28 @@ func IsZero(val interface{}) bool {
 	return v.Interface() == z.Interface()
 }
 
-func Version(version string) float64{
+func Version(version string) float64 {
 	var ret float64
 	ret = 0
-	versions := strings.Split(version,".")
-	vints := make([]int,len(versions))
-	vfloats := make([]float64,len(versions))
-	for i:=0 ;i<len(versions);i++{
-		vints[i],_ = strconv.Atoi(versions[i])
+	versions := strings.Split(version, ".")
+	vints := make([]int, len(versions))
+	vfloats := make([]float64, len(versions))
+	for i := 0; i < len(versions); i++ {
+		vints[i], _ = strconv.Atoi(versions[i])
 		vfloats[i] = float64(vints[i])
 		var f1 float64
 		var f2 float64
 		f1 = 100
-		f2 = float64(2-i)
-		ret += vfloats[i]*math.Pow(f1,f2)
+		f2 = float64(2 - i)
+		ret += vfloats[i] * math.Pow(f1, f2)
 
 	}
 	return ret
+}
+
+func JsonBody(req *http.Request) bson.M {
+	body, _ := ioutil.ReadAll(req.Body)
+	var params bson.M
+	json.Unmarshal(body, &params)
+	return params
 }

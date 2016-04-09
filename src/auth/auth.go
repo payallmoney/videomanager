@@ -8,7 +8,7 @@ import (
 	"fmt"
 	"gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
-	util "github.com/payallmoney/videomanager/util"
+	util "github.com/payallmoney/videomanager/src/util"
 	//	"encoding/json"
 )
 

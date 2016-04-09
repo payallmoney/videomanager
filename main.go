@@ -9,8 +9,8 @@ import (
 	"github.com/larspensjo/config"
 	"gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
-	"github.com/payallmoney/videomanager/auth"
-	util "github.com/payallmoney/videomanager/util"
+	"github.com/payallmoney/videomanager/src/auth"
+	util "github.com/payallmoney/videomanager/src/util"
 	"fmt"
 	"path/filepath"
 	"os"
@@ -18,7 +18,7 @@ import (
 	"strings"
 	"io"
 	"encoding/json"
-	"github.com/payallmoney/videomanager/app/video"
+	"github.com/payallmoney/videomanager/src/app/admin"
 	"log"
 )
 
@@ -29,8 +29,11 @@ func main() {
 	m := getMartini()
 	store := sessions.NewCookieStore([]byte("secret123"))
 	m.Use(sessions.Sessions("goodshare_session", store))
-	m.Use(martini.Static("static"))
-	m.Use(render.Renderer())
+
+	m.Use(render.Renderer(
+		render.Options{
+		Directory: "templates",
+	}))
 	//配置文件
 	configFile := flag.String("configfile", "config.ini", "配置文件")
 	inicfg, err := config.ReadDefault(*configFile)
@@ -60,11 +63,12 @@ func main() {
 	m.Post("/img/delete", imgdelete)
 	m.Get("/", index)
 	//静态内容
-	//	m.Use(martini.Static("static"))
+	m.Use(martini.Static("static"))
+
 	//需要权限的内容
-	m.Group("/video", video.Router,auth.AdminAuth)
+	m.Group("/admin", admin.Router,admin.Auth)
 	m.Run();
-		//m.RunOnAddr(":3333")
+	//m.RunOnAddr(":3333")
 }
 
 func index(db *mgo.Database, r render.Render, req *http.Request, inicfg *config.Config) {
