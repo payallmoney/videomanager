@@ -1,0 +1,87 @@
+<div class="fill" ng-controller="TaskManagerCtrl">
+    <nav class="navbar querybar navbar-default">
+        <div class="container-fluid">
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <form class="navbar-form navbar-left">
+                    <div class="form-group">
+                        <span class="inline v-align-m form-label">分类</span>
+                        <select ng-model="query.cat" ng-options=" cat.id as  cat.name for cat in cats   ">
+                            <option value=''>全部</option>
+                        </select>
+                        <span class="inline v-align-m form-label">任务类型</span>
+                        <select ng-model="query.rule" style="width:200px;"
+                                ng-options=" rule.id as  rule.name for rule in rules | filter:filterRule ">
+                            <option value=''>全部</option>
+                        </select>
+
+                    </div>
+                    <div class="form-group">
+                        <span class="inline v-align-m form-label">是否完成</span>
+                        <select ng-model="query.status">
+                            <option value=''>全部</option>
+                            <option value='1'>未完成</option>
+                            <option value='2'>已完成</option>
+                            <option value='0'>正在创建</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <span class="inline v-align-m form-label">任务日期</span>
+                        <input ng-model="query.querydate" ng-pattern="dateValidate()" type="text" class="form-control"
+                               placeholder="日期:20150101-20150131">
+                        <span class="inline v-align-m form-label">查询条件</span>
+                        <select ng-model="dropdown" ng-options=" item.key as  item.text for item in dropdowns   ">
+                        </select>
+                        <input ng-model="dropdownvalue" type="text" class="form-control" placeholder="输入查询条件">
+                    </div>
+                    <button type="button" class="btn btn-default" ng-click="querydata()">查询</button>
+                </form>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container-fluid -->
+    </nav>
+    <script id="distinct.html" type="text/ng-template">
+        <div class="item" ng-repeat="dist in dist.children">
+            <div class="list">
+                <div class="item distitem {{dist.active?'active':''}} {{ query.district == dist.id?'current':''}} {{dist.haschild?'':'nochild'}}"
+                     ng-click="treeclick (dist) ">
+                    {{dist.text}}
+                </div>
+                <div class="item distsub" ng-show="dist.haschild && dist.active">
+                    <div class="list" ng-include="'distinct.html'">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </script>
+    <div class="fill treeview" style="overflow: hidden;">
+        <div style="position:absolute;top:0px;height:30px;line-height:30px;padding:0 20px;width:100%;border-bottom:5px solid #eee; background-color:#eee;">
+            <strong>行政区划</strong>: {{currentdistname}}
+        </div>
+        <!--<js-tree tree-data="scope" tree-model="districtdata" tree-plugins="wholerow" ></js-tree>-->
+        <div style="position:absolute;top:30px;left:0;right:0;bottom:0;overflow: auto;;" class="distinctmenu list"
+             ng-include="'distinct.html'">
+        </div>
+    </div>
+    <div class="fill datatable">
+        <div ui-grid="gridOptions" class="gridStyle" ui-grid-pagination ui-grid-selection ui-grid-auto-resize></div>
+
+    </div>
+</div>
+
+<script type="text/ng-template" id="OldWindowModalContent.html">
+    <div class="modal-header">
+        <h3 class="modal-title">{{data.title}}</h3>
+    </div>
+    <div class="modal-body">
+        <iframe id="oldwindowiframe" onload='setFrameLoaded(this);' src="{{data.url}}">
+
+
+        </iframe>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" ng-click="ok()">确定</button>
+        <button class="btn btn-warning" ng-click="cancel()">关闭</button>
+    </div>
+</script>

@@ -1,0 +1,13 @@
+ @media only screen and (max-width: 1390px) {
+    .querybar {
+        height: 90px;
+    }
+
+    .fill.treeview {
+        top: 90px;
+    }
+
+    .fill.datatable {
+        top: 90px;
+    }
+}

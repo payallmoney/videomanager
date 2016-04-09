@@ -1,0 +1,99 @@
+<div class="navbar topbar">
+    <div class="navbar-inner">
+        <div class="navbar-container">
+            <!-- Navbar Barnd -->
+            <div class="navbar-header pull-left">
+                <div  class="navbar-brand noselect">
+                    <small>
+                        <img src="/lib/beyond/img/logo.png" alt=""/>
+                    </small>
+                </div>
+            </div>
+            <!-- /Navbar Barnd -->
+            <!-- Sidebar Collapse -->
+            <div class="sidebar-collapse noselect" id="sidebar-collapse">
+                <i class="collapse-icon fa fa-bars"></i>
+            </div>
+            <!-- /Sidebar Collapse -->
+            <!-- Account Area and Settings --->
+            <div class="navbar-header pull-right">
+                <div class="navbar-account">
+                    <ul class="account-area">
+                        <li>
+                            <!-- -->
+                            <!--<a style="min-width: 80px;" class="login-area dropdown-toggle" data-toggle="dropdown">-->
+                                <!--<section>-->
+                                    <!--<h2><span class="profile"><span>{{user}}</span></span></h2>-->
+                                <!--</section>-->
+                            <!--</a>-->
+                            <!--Login Area Dropdown-->
+                            <ul class="pull-right dropdown-menu dropdown-arrow dropdown-login-area"
+                                style="min-width: 80px;">
+                                <li class="username"><a>{{user}}</a></li>
+                                <!--/Theme Selector Area-->
+                                <li class="dropdown-footer">
+                                    <a href="/video/logout">
+                                        登出
+                                    </a>
+                                </li>
+                            </ul>
+                            <!--/Login Area Dropdown-->
+                        </li>
+                        <!-- /Account Area -->
+                        <!--Note: notice that setting div must start right after account area list.
+                        no space must be between these elements-->
+                        <!-- Settings -->
+                    </ul>
+                    <div class="setting">
+                        <!--<a id="btn-setting" title="Setting" href="#">-->
+                            <!--<i class="icon glyphicon glyphicon-cog"></i>-->
+                        <!--</a>-->
+                    </div>
+                    <div class="setting-container">
+
+                    </div>
+                    <!-- Settings -->
+                </div>
+            </div>
+            <!-- /Account Area and Settings -->
+        </div>
+    </div>
+</div>
+<div class="fill main-container container-fluid">
+    <!-- Page Container -->
+    <div class="fill page-container">
+        <!-- Page Sidebar -->
+        <div class="page-sidebar" id="sidebar">
+            <!-- Page Sidebar Header-->
+            <!--<div class="sidebar-header-wrapper">-->
+                <!--<input type="text" class="searchinput"/>-->
+                <!--<i class="searchicon fa fa-search"></i>-->
+
+                <!--<div class="searchhelper">搜索菜单</div>-->
+            <!--</div>-->
+            <ul class="nav sidebar-menu">
+                <li class="{{item.active}}" ng-repeat=" item in menu ">
+                    <a href="javascript:void(0)" ng-click="loadTab(item)">
+                        <i class="menu-icon glyphicon glyphicon-tasks"></i>
+                        <span class="menu-text">{{item.text}} </span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class=" fill page-content">
+            <div class="fill page-body">
+
+                <tabset class="tabpanel">
+                    <tab ng-repeat="tab in tabs" heading="{{tab.text}}" active="tab.active" disabled="tab.disabled" >
+                        <ng-include src="tab.html"></ng-include>
+                    </tab>
+                </tabset>
+            </div>
+            <!-- /Page Body -->
+        </div>
+        <!-- /Page Content -->
+    </div>
+    <!-- /Page Container -->
+    <!-- Main Container -->
+
+</div>

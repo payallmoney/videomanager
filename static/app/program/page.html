@@ -1,0 +1,62 @@
+<link href="/lib/fileinput/fileinput.min.css" rel="stylesheet">
+<script src="/lib/fileinput/fileinput.js"></script>
+<div class="fill" ng-controller="VideoClientCtrl" id="VideoClientCtrl" style="overflow-y: scroll;">
+
+    <div style="padding:20px;">
+
+        <form id="program_upform" method="post" enctype="multipart/form-data">
+            <input placeholder="客户端程序文件" type="file"  accept=".run"/>
+        </form>
+        <script>
+            $(function () {
+                $.fn.fileinput.defaults = $.extend($.fn.fileinput.defaults, {
+                    browseLabel: '程序浏览',
+                    browseTitle: '程序浏览',
+                    removeLabel: '清除',
+                    removeTitle: '清除',
+                    cancelLabel: '撤销',
+                    cancelTitle: '撤销',
+                    uploadLabel: '上传',
+                    uploadTitle: '上传',
+                    allowedFileExtensions: ["run"],
+                    multiple: false,
+
+                    overwriteInitial: true,
+                    initialPreviewShowDelete: true,
+                    deleteUrl: '/video/program/delete',
+                    uploadUrl: '/video/program/upload',
+                    maxFileSize: 20000000,
+                    dropZoneTitle: '拖拽程序这里',
+                    msgSelected: '选了{n}个程序',
+                    initialCaption: "",
+                    uploadAsync:true
+                });
+                $("input[type=file]").fileinput({
+                    'allowedFileExtensions': ['run'],
+                    showRemove: false,
+                    autoReplace: true,
+                    dropZoneEnabled: false,
+                    showPreview:false,
+                    initialPreview:'客户端程序'
+                });
+                $("#program_upform").on("filebatchuploadsuccess", "input[type=file]", function (event, data, previewId, index) {
+                    var scope = angular.element("#VideoClientCtrl").scope();
+                    scope.program_append(data.response);
+                    scope.$digest();
+                });
+            });
+        </script>
+
+        <div style="list-style: none;padding: 0;">
+            <div ng-repeat="c in programs"
+                 style="width:320px;height:30px;float:left;text-align: center;padding:5px;">
+                <div style="border:1px solid #ccc;padding:5px;background-color: gainsboro;cursor: pointer;">
+                    <span style="font-weight: bold;width:50px;display: inline-block;">{{c.version}}</span>
+                    <a class="btn btn-sm btn-danger " ng-click="program_del(c,$index)">删除程序</a>
+                    <a class="btn btn-sm btn-danger " href="{{url(c.src)}}">下载程序</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

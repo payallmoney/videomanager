@@ -1,0 +1,190 @@
+body{
+    background-color: #eee;
+    font-family: 'Open Sans','Segoe UI','Microsoft Yahei';
+    padding: 10px 0 ;
+    box-sizing: border-box;
+}
+ul.tabs{
+    border-bottom:none;
+}
+.outerContainer{
+    width:800px;
+    overflow:visible;
+    border:none;
+
+}
+table.form_tbl  td:first-child,table.form_tbl td.header{
+    background-color: lightblue;
+    text-indent:5px;
+    /*font-weight: bold;*/
+}
+.form_tbl{
+    background-color: #fbfbfb;
+}
+.list-selected{
+    color:blue;
+}
+.list-label{
+    background-color: transparent;
+}
+ul.tabs{
+    margin-bottom: 0;
+    margin-left: 0;
+    border: 0;
+    top: 2px;
+    background-color: #eee;
+    -webkit-box-shadow: 0 0 4px rgba(0,0,0,.3);
+    -moz-box-shadow: 0 0 4px rgba(0,0,0,.3);
+    box-shadow: 0 0 4px rgba(0,0,0,.3);
+    border-bottom: 1px solid #ddd;
+    padding-left: 0;
+    list-style: none;
+    margin-top: 0;
+    box-sizing: border-box;
+    height:34px;
+}
+
+.outerContainer>.container>table.form_tbl{
+    margin-bottom: 0;
+    margin-left: 0;
+    border: 0;
+    top: 2px;
+    background-color: #eee;
+    -webkit-box-shadow: 1px 0 10px 1px rgba(0,0,0,.3);
+    -moz-box-shadow: 1px 0 10px 1px rgba(0,0,0,.3);
+    box-shadow: 1px 0 10px 1px rgba(0,0,0,.3);
+    padding-left: 0;
+    list-style: none;
+    margin-top: 0;
+    box-sizing: border-box;
+    height:34px;
+
+}
+.outerContainer>.container>table.form_tbl >tbody> tr:first-child >td{
+    border-top:none;
+}
+.container td[style*="border-top: 1px solid #000;"]{
+    border-top:none !important;
+}
+.outerContainer>.container>table.form_tbl >tbody> tr:last-child >td{
+    border-bottom:none;
+}
+.outerContainer>.container>table.form_tbl >tbody> tr >td:first-child {
+    border-left:none;
+    padding-left:5px !important;
+}
+.outerContainer>.container>table.form_tbl >tbody> tr >td:last-child {
+    border-right:none;
+    padding-right:5px !important;
+}
+
+
+ul.tabs>li{
+    margin-bottom: -2px;
+}
+ul.tabs >li>a.current{
+    background: inherit;
+    color: #262626;
+    border: 0;
+    border-top: 2px solid #2dc3e8;
+    border-bottom-color: transparent;
+    background-color: #fbfbfb;
+    z-index: 12;
+    line-height: 16px;
+    margin-top: -2px;
+    box-shadow: 0 -2px 3px 0 rgba(0,0,0,.15);
+}
+
+ul.tabs >li>a {
+    height: inherit;
+    background: inherit;
+    padding: 10px 15px;
+    border: 1px solid transparent;
+    border-radius: 0!important;
+    color: #777;
+    margin-right: -1px;
+    line-height: 12px;
+    position: relative;
+    z-index: 11;
+    margin-left: 0;
+
+    /*border-left: 1px solid #fbfbfb;*/
+}
+ul.tabs >li>a:hover{
+    color:black;
+}
+    /*.container{*/
+    /*background-color: #fbfbfb;*/
+    /*padding: 16px 12px;*/
+    /*position: relative;*/
+    /*-webkit-box-shadow: 1px 0 10px 1px rgba(0,0,0,.3);*/
+    /*-moz-box-shadow: 1px 0 10px 1px rgba(0,0,0,.3);*/
+    /*box-shadow: 1px 0 10px 1px rgba(0,0,0,.3);*/
+/*}*/
+.outerContainer{
+    display:table;
+    position:relative;
+    padding-top:100px;
+    background-color: #fbfbfb;
+    padding: 16px 12px;
+    position: relative;
+    -webkit-box-shadow: 1px 0 10px 1px rgba(0,0,0,.3);
+    -moz-box-shadow: 1px 0 10px 1px rgba(0,0,0,.3);
+    box-shadow: 1px 0 10px 1px rgba(0,0,0,.3);
+    padding-top: 60px;
+    min-width:900px;
+}
+.outerContainer>div{
+    display: table-row;
+}
+.outerContainer>div:first-child+div.container{
+    margin-top:100px;
+}
+.outerContainer>div.showToolbar{
+    position: absolute;
+    top:0;
+    width:100%;
+    height:50px;
+}
+.outerContainer>div.showToolbar.toolbarHide{
+    position: absolute;
+    bottom:0;
+    top:inherit;
+    width:100%;
+}
+.span-22{
+    display:table-row;
+    width:auto;
+    background-color: #fbfbfb;
+    padding: 16px 12px;
+    position: relative;
+    -webkit-box-shadow: 1px 0 10px 1px rgba(0,0,0,.3);
+    -moz-box-shadow: 1px 0 10px 1px rgba(0,0,0,.3);
+    box-shadow: 1px 0 10px 1px rgba(0,0,0,.3);
+    width: 100%;
+    box-sizing: border-box;
+}
+.toolbar{
+    box-sizing: border-box;
+    height:50px;
+    background-color: transparent;
+}
+/*td>span{*/
+    /*position:relative;*/
+    /*display:inline-block;*/
+    /*height:100%;*/
+    /*box-sizing: border-box;*/
+/*}*/
+.caption{
+    display: none;
+}
+table.form_tbl td  input[type=text]{
+    color:blue;
+}
+.toolbar>span{
+    margin-top: 5px;
+    margin-right: 20px;
+}
+.toolbar >span>a{
+    margin:0;
+}

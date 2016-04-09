@@ -1,0 +1,232 @@
+.main-container.fill{
+    top:45px;
+}
+.main-container>.page-container{
+    position:absolute;
+}
+.fill{
+    position:absolute;
+    top:0px;
+    left:0px;
+    bottom:0px;
+    right:0px;
+}
+
+div.tabpanel{
+    height:100%;
+    position: relative;
+}
+.tab-content{
+    top:36px;
+    position:absolute;
+    left:0px;
+    bottom:0px;
+    right:0px;
+}
+.fill.datatable{
+    top:45px;
+    left:240px;
+}
+.fill.pager{
+    top:inherit;
+    bottom:0;
+}
+
+.ui-grid-pager-row-count-picker select{
+    font-size: inherit;
+    color: inherit;
+    background-color: inherit;
+    border: inherit;
+    padding: inherit;
+}
+.gridStyle{
+    height:100%;
+}
+.ui-grid-viewport{
+    /*overflow: auto !important;*/
+}
+.treeview.fill{
+    top:45px;
+    width:240px;
+    right:inherit;
+    border-top:solid 5px #eee;
+    border-right:solid 5px #eee;
+    overflow: auto;
+}
+li.jstree-leaf>a>i.jstree-icon.jstree-themeicon{
+    background-image: url(../../js/ext-3.3.0/resources/images/yourtheme/tree/leaf.gif);
+    background-position: center;
+}
+
+li.jstree-leaf>a>i.jstree-icon.jstree-themeicon{
+    background-image: url(../../js/ext-3.3.0/resources/images/yourtheme/tree/leaf.gif);
+    background-position: center;
+}
+.jstree-node>a>i.jstree-icon.jstree-themeicon{
+    background-image: url(../../js/ext-3.3.0/resources/images/yourtheme/tree/folder.gif);
+    background-position: center;
+}
+.jstree-node.jstree-open>a>i.jstree-icon.jstree-themeicon{
+    background-image: url(../../js/ext-3.3.0/resources/images/yourtheme/tree/folder-open.gif);
+    background-position: center;
+}
+
+
+
+.distinctmenu .item{
+    padding:0;
+    border:none;
+    white-space: nowrap;
+}
+.distinctmenu .list{
+    padding:0;
+    border:none;
+}
+.distitem{
+    position: relative;
+    width:100%;
+    height:30px;
+    line-height: 30px;
+    /*padding:20px;*/
+    vertical-align: middle;
+    text-align: left;
+    text-indent: 20px;
+    border:1px solid #eee;
+    border-bottom: none;
+    cursor: pointer;
+}
+.distitem:before{
+    content:url(../img/folder.gif);
+}
+.distitem.current{
+    color:red;
+    background-color:#ddd;
+}
+.distitem.active:before{
+    content:url(../img/folder-open.gif);
+}
+.distitem.nochild:before{
+    content:url(../img/leaf.gif);
+}
+
+.item.distsub{
+    position: relative;
+    padding-left:20px;
+    text-align: left;
+}
+
+.distitem.active +.distsub{
+    border:none;
+
+}
+
+.oldwindow{
+    width:100%;
+    height:100%;
+    background-color: rgba(0,0,0,0.5);
+}
+.modal-open .oldwindow.modal{
+    overflow: hidden;
+
+}
+.oldwindow>.modal-dialog{
+    width:100%;
+    position: absolute;
+    height:100%;
+    margin:0;
+    padding:0;
+    /*left:10%;*/
+    /*right:10%;*/
+    /*top:50px;*/
+    /*bottom:50px;*/
+}
+.oldwindow>.modal-dialog>.modal-content{
+    top: 0;
+    bottom: 0;
+    width: 100%;
+    position: absolute;
+}
+.oldwindow>.modal-dialog>.modal-content>.modal-header{
+    height:30px;
+    position:absolute;
+    top:0;
+    left:0;
+    right:0;
+    padding:3px 10px;
+    margin:0;
+}
+.oldwindow>.modal-dialog>.modal-content>.modal-header h3{
+    font-size:16px;
+}
+.oldwindow>.modal-dialog>.modal-content>.modal-footer{
+    position:absolute;
+    left:0;
+    right:0;
+    bottom: 0;
+    height:50px;
+    border-top: 1px solid #e5e5e5;
+}
+.oldwindow>.modal-dialog>.modal-content>.modal-body{
+    top:30px;
+    bottom:50px;
+    position:absolute;
+    left:0;
+    right:0;
+    padding:0;
+}
+.oldwindow>.modal-dialog>.modal-content>.modal-body>iframe{
+    width:100%;
+    height:100%;
+    border:none;
+}
+
+.noselect {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.selectable {
+    -webkit-touch-callout:initial;
+    -webkit-user-select: initial;
+    -khtml-user-select: initial;
+    -moz-user-select: initial;
+    -ms-user-select: initial;
+    user-select: initial;
+}
+.ui-grid-cell-contents{
+    -webkit-touch-callout:initial;
+    -webkit-user-select: initial;
+    -khtml-user-select: initial;
+    -moz-user-select: initial;
+    -ms-user-select: initial;
+    user-select: initial;
+}
+
+.sidebar-header-wrapper{
+    z-index:124;
+}
+.page-sidebar .sidebar-header-wrapper .searchhelper {
+    z-index:124;
+}
+
+.navbar{
+    z-index: 0;
+}
+.topbar.navbar{
+    z-index:200;
+}
+
+#loading-bar-spinner{
+    left: inherit !important;
+    top:inherit !important;
+    bottom:31px;
+    right:150px;
+}
+#loading-bar .bar{
+    top:inherit !important;
+    bottom:0;
+}

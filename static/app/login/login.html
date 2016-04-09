@@ -1,0 +1,66 @@
+﻿<!-- Page Container -->
+<div class="navbar">
+    <div class="navbar-inner">
+        <div class="navbar-container">
+            <!-- Navbar Barnd -->
+            <div class="navbar-header pull-left">
+                <a href="#" class="navbar-brand">
+                    <small>
+                        <img src="lib/beyond/img/logo.png" alt=""/>
+                    </small>
+                </a>
+            </div>
+
+        </div>
+    </div>
+</div>
+<div class="login-panel container-fluid">
+    <div class="page-container">
+        <!-- Page Body -->
+        <div class="modal-dialog">
+            <form role="form" method="post" action="/video/login" id="loginForm">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">系统登录</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div style="color:red;padding:10px;text-align: center;" id="msg"></div>
+                        <div class="form-group">
+                            用户名<span class="input-icon icon-right inverted">
+                                                        <input id="j_username" name="j_username" type="text"
+                                                               class="form-control">
+                                                        <i class="fa fa-user bg-darkorange"></i>
+                                                    </span>
+                        </div>
+                        <div class="form-group">
+                            密码<span class="input-icon icon-right inverted">
+                                    <input id="j_password" name="j_password" type="password"
+                                           class="form-control">
+                                    <i class="fa  fa-lock  bg-palegreen"></i>
+                                </span>
+                        </div>
+
+                        <div class="form-group">
+                            验证码
+                            <div class="input-group">
+                                <input type="text" id="code" class="form-control" ng- placeholder="验证码">
+
+                                <div title="换一个" class="input-group-addon" style="padding:4px;text-align: center;">
+                                    <input
+                                            style="border:none;background-color: transparent;width:50px;text-align: center;"
+                                            readonly='true' ng-click="getValideCode()" ng-model="valideCode"></div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary" id="login_sure">登录</button>
+                        <button type="button" class="btn btn-warning" onclick="clearInput()" id="login_cancel">
+                            取消
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

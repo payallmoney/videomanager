@@ -1,0 +1,42 @@
+<div class="fill" ng-controller="ClientManagerCtrl" style="overflow-y: scroll;">
+
+    <div style="padding:20px;">
+        设备ID：<input ng-model="name"><a class="btn btn-sm btn-blue" ng-click="client_add(name)">增加设备</a>
+        <ul style="list-style: none">
+            <li ng-repeat="c in clients">
+                <div
+                        style="border:1px solid #ccc;padding:5px;background-color: gainsboro;cursor: pointer;">
+                    <div ng-click="c.show=!c.show" style="display: inline-block;"><i
+                            class="icon glyphicon glyphicon-hdd primary"></i>&nbsp;&nbsp;设备ID：<span
+                            style="font-weight: bold;width:200px;display: inline-block;">{{c._id}}</span>
+                    </div>
+                    <!--&nbsp;是否调试：<input ng-model="c.debug">-->
+                    <!--&nbsp;js版本：<input ng-model="c.version">-->
+                    <a class="btn btn-sm btn-blue" ng-click="video_add(c,v)">增加视频</a> <a class="btn btn-sm btn-danger "
+                                                                                         ng-click="client_del(c,$index)">删除设备</a>
+                </div>
+                <div ng-show="c.show" style="background-color: white;">
+                    <ul style="line-height: 25px;list-style: decimal;">
+                        <li ng-repeat="v in c.videolist track by $index">
+                            <i class="icon glyphicon glyphicon-film"></i>
+                            <span ng-click="v.show = true;" ng-show="!v.show" style="cursor: pointer;">
+                                {{$parent.videomap[v._id].name}}
+                            </span>
+
+                            <div ng-show="v.show" style="display: inline-block;">
+                                <select ng-model="v.new_id">
+                                    <option ng-repeat=" item in  $parent.videolist" value="{{item._id}}">{{item.name}}
+                                    </option>
+                                </select>
+                                <button style="width:50px;" ng-click="video_save(c,v,$index)">确定</button>
+                                <button style="width:50px;" ng-click="video_save_cancel(c,v)">取消</button>
+                            </div>
+                            <a class="btn btn-sm btn-danger " ng-click="video_del(c,v,$index)">删除视频</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
+

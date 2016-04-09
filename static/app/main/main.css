@@ -1,0 +1,127 @@
+div {
+    position: relative;
+}
+
+.fill {
+    position: absolute;
+    top: 0px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+.main-container {
+    top: 45px;
+}
+
+.main-container > .page-container {
+    height: 100%;
+}
+
+.page-body {
+    padding: 5px;
+}
+
+.tabs {
+    top: 43px;
+    margin: 0 5px 5px 5px;
+    background-color: transparent;
+}
+
+.nav-tabs {
+    box-shadow: none;
+}
+
+.tabs .navbar .navbar-brand {
+    color: inherit;
+    height: 50px;
+    padding: 15px 15px;
+    font-size: 18px;
+    height: auto;
+}
+
+.tabs .navbar {
+    padding: 0;
+    margin: 0;
+    border: 1px solid transparent;
+    height: 50px;
+    min-height: 50px;
+    z-index: 0;
+}
+
+select {
+    vertical-align: middle;
+}
+
+.inline {
+    display: inline-block;
+}
+
+.v-align-m {
+    vertical-align: middle;
+}
+
+.form-label:after {
+    content: '：'
+}
+
+.treeview {
+    background-color: white;
+    width: 300px;
+    top: 52px;
+    right: auto;
+    overflow: auto;
+    border-right: 1px solid #eee;
+}
+
+.datatable {
+    top: 52px;
+    left: 302px;
+}
+
+.datatable .panel {
+    margin-bottom: 30px;
+}
+
+.table-pager {
+    position: absolute;
+    bottom: 0;
+    height: 30px;
+    left: 0;
+    right: 0;
+    padding: 0 10px 0 0;
+
+}
+
+.table-pager > ul.pagination {
+    display: inline;
+}
+
+.pagenums {
+    float: right;
+    height: 30px;
+    line-height: 30px;
+    vertical-align: middle;
+}
+
+.gotopage {
+    display: inline-block;
+    height: 32px;
+    line-height: 32px;
+}
+
+.gotopage input {
+    display: inline-block;
+    height: 24px;
+    line-height: 24px;
+    margin: 3px;
+    width: 30px;
+}
+
+.page-sidebar .sidebar-header-wrapper .searchicon {
+    z-index: 1001;
+}
+
+.page-sidebar .sidebar-header-wrapper .searchinput, .page-sidebar .sidebar-header-wrapper .searchhelper {
+    z-index: 1000;
+}

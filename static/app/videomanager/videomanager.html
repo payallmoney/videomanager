@@ -1,0 +1,66 @@
+<link href="/lib/fileinput/fileinput.min.css" rel="stylesheet">
+<script src="/lib/fileinput/fileinput.js"></script>
+<div class="fill" ng-controller="VideoManagerCtrl" id="VideoManagerCtrl" style="overflow-y: scroll;">
+
+    <div style="padding:20px;">
+
+        <form id="videomanager_upload" method="post" enctype="multipart/form-data">
+            <input placeholder="视频" type="file"  accept=".mp4 ,.avi,.rmvb"/>
+        </form>
+        <script>
+            $(function () {
+                $.fn.fileinput.defaults = $.extend($.fn.fileinput.defaults, {
+                    browseLabel: '视频浏览',
+                    browseTitle: '视频文件',
+                    removeLabel: '清除',
+                    removeTitle: '清除',
+                    cancelLabel: '撤销',
+                    cancelTitle: '撤销',
+                    uploadLabel: '上传',
+                    uploadTitle: '上传',
+                    allowedFileExtensions: ['mp4','avi','rmvb'],
+                    multiple: true,
+                    overwriteInitial: false,
+                    initialPreviewShowDelete: false,
+                    deleteUrl: '/video/delete',
+                    uploadUrl: '/video/upload',
+                    maxFileSize: 20000000,
+                    dropZoneTitle: '拖拽视频这里',
+                    msgSelected: '选了{n}张视频',
+                    initialCaption: ""
+                });
+                $("input[type=file]").fileinput({
+                    'allowedFileExtensions': ['mp4','avi','rmvb'],
+                    showRemove: false,
+                    autoReplace: true,
+                    dropZoneEnabled: false
+                });
+                $("#videomanager_upload").on("fileuploaded", "input[type=file]", function (e, data) {
+                    var scope = angular.element("#VideoManagerCtrl").scope();
+                    scope.appendList(data.response);
+                    scope.$digest();
+                });
+            });
+        </script>
+
+        <div style="list-style: none;padding: 0;">
+            <div ng-repeat="c in $parent.videolist"
+                 style="width:320px;height:230px;float:left;text-align: center;padding:5px;">
+                <div style="border:1px solid #ccc;padding:5px;background-color: gainsboro;cursor: pointer;">
+                    <span ng-click="c.show=true;c.newname=c.name;" ng-show="!c.show" style="font-weight: bold;width:100%;display: inline-block;">{{c.name}}</span>
+                    <div ng-show="c.show" ><input ng-model="c.newname" style="width:190px;"><button style="width:50px;" ng-click="change_name(c)" >确定</button><button style="width:50px;" ng-click="change_name_cancel(c)" >取消</button></div>
+                    <span>
+                        <video width="300px" height="160px" controls="" preload="none">
+                            <source src="{{c.src}}" type="video/mp4">
+                            <div class="file-preview-other">
+                                <i class="glyphicon glyphicon-file"></i>
+                            </div>
+                        </video>
+                    </span>
+                    <a class="btn btn-sm btn-danger " ng-click="video_del(c,$index)">删除视频</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
