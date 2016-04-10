@@ -7,7 +7,6 @@ import (
 	"gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
 	"github.com/payallmoney/videomanager/src/util"
-
 	"fmt"
 	"path/filepath"
 	"os"
@@ -27,15 +26,8 @@ func clients(r render.Render, db *mgo.Database, params martini.Params, req *http
 	}
 	r.JSON(200, result)
 }
-func videouploadpage(r render.Render, w http.ResponseWriter) {
-	w.Header().Set("Access-Control-Allow-Origin", "*")
-	r.HTML(200, "videoupload", nil)
-}
 
-func videoindex(r render.Render, w http.ResponseWriter) {
-	w.Header().Set("Access-Control-Allow-Origin", "*")
-	r.HTML(200, "video_index", nil)
-}
+
 
 func reg(r render.Render, params martini.Params, req *http.Request, w http.ResponseWriter, db *mgo.Database) {
 	w.Header().Set("Access-Control-Allow-Origin", "*")
@@ -90,9 +82,6 @@ func videoversion(r render.Render, db *mgo.Database, params martini.Params, req 
 	r.JSON(200, result)
 }
 
-func videoversionpage(r render.Render, db *mgo.Database, params martini.Params, req *http.Request, w http.ResponseWriter) {
-	r.HTML(200, "videoversio", nil)
-}
 
 func videoversionupdate(r render.Render, db *mgo.Database, params martini.Params, req *http.Request, w http.ResponseWriter) {
 	result := bson.M{}

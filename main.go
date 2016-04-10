@@ -19,6 +19,7 @@ import (
 	"io"
 	"encoding/json"
 	"github.com/payallmoney/videomanager/src/app/admin"
+	"github.com/payallmoney/videomanager/src/app/user"
 	"log"
 )
 
@@ -61,12 +62,12 @@ func main() {
 
 
 	m.Post("/img/delete", imgdelete)
-	m.Get("/", index)
 	//静态内容
 	m.Use(martini.Static("static"))
 
 	//需要权限的内容
 	m.Group("/admin", admin.Router,admin.Auth)
+	m.Group("/", user.Router,user.Auth)
 	m.Run();
 	//m.RunOnAddr(":3333")
 }
