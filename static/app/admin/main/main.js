@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('videosystem.main', ['ngRoute', 'ui.bootstrap'])
-    .controller('MainCtrl', function ($scope, Auth, $location, $q,$http,$sce) {
+    .controller('MainCtrl', function ($scope, Auth, $location, $q, $http, $sce) {
         $scope.username = Auth.getUserName();
         $scope.tabs = [];
         $scope.activetext = '';
@@ -12,19 +12,53 @@ angular.module('videosystem.main', ['ngRoute', 'ui.bootstrap'])
         //视频列表
         $scope.videolist = [];
         $scope.videomap = {};
-        $http.get("/admin/video/list").then(function(ret){
+        $http.get("/admin/video/list").then(function (ret) {
             console.log(ret.data);
             $scope.videolist = ret.data;
-            for(var i = 0 ;i < $scope.videolist.length;i++){
+            for (var i = 0; i < $scope.videolist.length; i++) {
                 var row = $scope.videolist[i];
-                row.src = $sce.trustAsUrl('/uploadvideo/'+row._id);
-                $scope.videomap[row._id]=row;
+                row.src = $sce.trustAsUrl('/uploadvideo/' + row._id);
+                $scope.videomap[row._id] = row;
             }
         });
 
-        $scope.test = ['123','321'];
+        $scope.test = ['123', '321'];
         var lastActive;
-        $scope.loadTab = function (menu) {
+        $scope.loadTab = loadTab;
+        $scope.closeTab = closeTab;
+
+        $scope.menu = [
+            {
+                "text": '视频管理',
+                "js": "/app/admin/videomanager/videomanager.js",
+                'html': '/app/admin/videomanager/videomanager.html'
+            },
+            {
+                "text": '客户端管理',
+                "js": "/app/admin/clientmanager/clientmanager.js",
+                'html': '/app/admin/clientmanager/clientmanager.html'
+            },
+            {
+                "text": '客户端程序管理',
+                "js": "/app/admin/program/page.js",
+                'html': '/app/admin/program/page.html'
+            }];
+        $scope.loadTab($scope.menu[0]);
+        initPage();
+        function closeTab(idx) {
+            console.log(idx);
+            console.log($scope.tabs);
+            $scope.tabs.splice(idx, 1);
+            if ($scope.tabs[idx]) {
+                $scope.tabs[idx].active = true;
+            } else if ($scope.tabs[idx - 1]) {
+                $scope.tabs[idx - 1].active = true;
+            }
+            console.log($scope.tabs);
+            event.preventDefault();
+        }
+
+        function loadTab(menu) {
             //console.log(menu);
             if (menu.js) {
                 $script(menu.js, function () {
@@ -60,60 +94,37 @@ angular.module('videosystem.main', ['ngRoute', 'ui.bootstrap'])
                 }
                 menu.active = true;
             }
-        };
-        //for(var i =0  ;i<10;i++){
-        //    var dashboard = {
-        //        "text": '测试'+i,
-        //        'html': 'app/test/test.html',
-        //        "close": false
-        //    };
-        //    $scope.loadTab(dashboard);
-        //}
+        }
 
-        $("#sidebar-collapse").on('click', function () {
-            if (!$('#sidebar').is(':visible'))
-                $("#sidebar").toggleClass("hide");
-            $("#sidebar").toggleClass("menu-compact");
-            $(".sidebar-collapse").toggleClass("active");
-            var b = $("#sidebar").hasClass("menu-compact");
+        function initPage(){
+            $("#sidebar-collapse").on('click', function () {
+                if (!$('#sidebar').is(':visible'))
+                    $("#sidebar").toggleClass("hide");
+                $("#sidebar").toggleClass("menu-compact");
+                $(".sidebar-collapse").toggleClass("active");
+                var b = $("#sidebar").hasClass("menu-compact");
 
-            if ($(".sidebar-menu").closest("div").hasClass("slimScrollDiv")) {
-                $(".sidebar-menu").slimScroll({destroy: true});
-                $(".sidebar-menu").attr('style', '');
-            }
-            if (b) {
-                $(".open > .submenu")
-                    .removeClass("open");
-            } else {
-                if ($('.page-sidebar').hasClass('sidebar-fixed')) {
-                    var position = (readCookie("rtl-support") || location.pathname == "/index-rtl-fa.html" || location.pathname == "/index-rtl-ar.html") ? 'right' : 'left';
-                    $('.sidebar-menu').slimscroll({
-                        height: 'auto',
-                        position: position,
-                        size: '3px',
-                        color: themeprimary
-                    });
+                if ($(".sidebar-menu").closest("div").hasClass("slimScrollDiv")) {
+                    $(".sidebar-menu").slimScroll({destroy: true});
+                    $(".sidebar-menu").attr('style', '');
                 }
-            }
-            //Slim Scroll Handle
-        });
+                if (b) {
+                    $(".open > .submenu")
+                        .removeClass("open");
+                } else {
+                    if ($('.page-sidebar').hasClass('sidebar-fixed')) {
+                        var position = (readCookie("rtl-support") || location.pathname == "/index-rtl-fa.html" || location.pathname == "/index-rtl-ar.html") ? 'right' : 'left';
+                        $('.sidebar-menu').slimscroll({
+                            height: 'auto',
+                            position: position,
+                            size: '3px',
+                            color: themeprimary
+                        });
+                    }
+                }
+                //Slim Scroll Handle
+            });
+        }
 
-        //取出菜单数据
-        $scope.menu = [
-            {
-                "text": '视频管理',
-                "js": "/app/admin/videomanager/videomanager.js",
-                'html': '/app/admin/videomanager/videomanager.html'
-            },
-            {
-                "text": '客户端管理',
-                "js": "/app/admin/clientmanager/clientmanager.js",
-                'html': '/app/admin/clientmanager/clientmanager.html'
-            },
-            {
-                "text": '客户端程序管理',
-                "js": "/app/admin/program/page.js",
-                'html': '/app/admin/program/page.html'
-            }];
-        $scope.loadTab($scope.menu[0]);
+
     });

@@ -84,7 +84,8 @@
             <div class="fill page-body">
 
                 <tabset class="tabpanel">
-                    <tab ng-repeat="tab in tabs" heading="{{tab.text}}" active="tab.active" disabled="tab.disabled" >
+                    <tab ng-repeat="tab in tabs" active="tab.active" disabled="tab.disabled" >
+                        <tab-heading>{{tab.text}} <div class="closeX" ng-click="closeTab($index)" ng-show="tab.active">X</div></tab-heading>
                         <ng-include src="tab.html"></ng-include>
                     </tab>
                 </tabset>
