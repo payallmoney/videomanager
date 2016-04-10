@@ -15,7 +15,11 @@ angular.module('videosystem.login', ['ngRoute'])
         $scope.getValideCode();
         $scope.data = {};
         $scope.msg = '';
-        $scope.login = function () {
+        $scope.next = next;
+        $scope.login = login;
+        $scope.enterLogin = enterLogin;
+
+        function login() {
             console.log($scope.data);
             $http({
                 url: '/admin/login',
@@ -36,6 +40,20 @@ angular.module('videosystem.login', ['ngRoute'])
                 console.log(data);
                 $scope.msg = "登录失败";
             });
-        };
+        }
+
+
+
+        function next(){
+            if (event.keyCode == 13) {
+                $(event.target).parent().parent().next().find("input:visible")[0].focus();
+                event.preventDefault();
+            }
+        }
+        function enterLogin(){
+            if (event.keyCode == 13) {
+                login()
+            }
+        }
 
     });

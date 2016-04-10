@@ -27,13 +27,13 @@
                         <div style="color:red;padding:10px;text-align: center;" ng-show="!!msg" >{{msg}}</div>
                         <div class="form-group">
                             用户名<span class="input-icon icon-right inverted">
-                                    <input ng-model="data.userid" type="text" class="form-control">
+                                    <input ng-model="data.userid" type="text" class="form-control" ng-keypress="next()">
                                     <i class="fa fa-user bg-darkorange"></i>
                                 </span>
                         </div>
                         <div class="form-group">
                             密码<span class="input-icon icon-right inverted">
-                                    <input ng-model="data.password" type="password"
+                                    <input ng-model="data.password" type="password" ng-keypress="next()"
                                            class="form-control">
                                     <i class="fa  fa-lock  bg-palegreen"></i>
                                 </span>
@@ -42,7 +42,7 @@
                         <div class="form-group">
                             验证码
                             <div class="input-group">
-                                <input type="text" id="code" class="form-control" ng- placeholder="验证码">
+                                <input type="text" id="code" class="form-control" placeholder="验证码" ng-keypress="enterLogin()">
 
                                 <div title="换一个" class="input-group-addon" style="padding:4px;text-align: center;">
                                     <input
