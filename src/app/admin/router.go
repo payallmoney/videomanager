@@ -25,6 +25,7 @@ func Router(m martini.Router) {
 
 
 	m.Post("/login", Login)
+	m.Get("/logout", Logout)
 
 	m.Any("/video/upload", videoupload)
 	m.Any("/video/list/:id", clientlist)
@@ -80,7 +81,7 @@ func Login(session sessions.Session, db *mgo.Database, r render.Render, req *htt
 
 func Logout(session sessions.Session, r render.Render) {
 	session.Delete("admin_userid")
-	r.HTML(200, "login", "登出成功")
+	r.Redirect("/admin")
 }
 
 func Auth(session sessions.Session, c martini.Context, r render.Render, req *http.Request) {

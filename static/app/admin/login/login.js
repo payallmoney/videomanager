@@ -27,6 +27,7 @@ angular.module('videosystem.login', ['ngRoute'])
                 console.log(data);
                 if (data.Success) {
                     Auth.setlogin(true);
+                    Auth.setUserName(data.Data.name);
                     $location.path('/main');
                 } else {
                     $scope.msg = data.Msg;

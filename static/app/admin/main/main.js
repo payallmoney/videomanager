@@ -2,6 +2,7 @@
 
 angular.module('videosystem.main', ['ngRoute', 'ui.bootstrap'])
     .controller('MainCtrl', function ($scope, Auth, $location, $q,$http,$sce) {
+        $scope.username = Auth.getUserName();
         $scope.tabs = [];
         $scope.activetext = '';
         var init = $q.defer();
@@ -97,7 +98,6 @@ angular.module('videosystem.main', ['ngRoute', 'ui.bootstrap'])
             //Slim Scroll Handle
         });
 
-        $scope.user = Auth.getUser();
         //取出菜单数据
         $scope.menu = [
             {

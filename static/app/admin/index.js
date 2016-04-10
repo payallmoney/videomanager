@@ -60,7 +60,7 @@ var app =
         app.controller = $controllerProvider.register;
     }).factory('Auth', function ($http, $location, $q) {
         var logined;
-        var user;
+        var userName;
         return {
             setlogin: function (islogined) {
                 logined = islogined;
@@ -68,8 +68,11 @@ var app =
             logined:function(){
                 return logined
             },
-            getUser: function () {
-                return user;
+            getUserName: function () {
+                return userName;
+            },
+            setUserName: function ( name) {
+                userName = name;
             }
         }
     }).controller('ModalInstanceCtrl', function ($scope, $modalInstance, data) {
