@@ -18,11 +18,13 @@ angular.module('videosystem.login', ['ngRoute'])
         $scope.next = next;
         $scope.login = login;
         $scope.enterLogin = enterLogin;
-
+        $scope.register = register;
         function login() {
-            console.log($scope.data);
+            if(!valid()){
+                return;
+            }
             $http({
-                url: '/user/login',
+                url: '/login',
                 method: 'POST',
                 //param: $.param($scope.data),
                 data: ($scope.data),
@@ -40,6 +42,7 @@ angular.module('videosystem.login', ['ngRoute'])
                 console.log(data);
                 $scope.msg = "登录失败";
             });
+
         }
 
 
@@ -54,6 +57,29 @@ angular.module('videosystem.login', ['ngRoute'])
             if (event.keyCode == 13) {
                 login()
             }
+        }
+        function register(){
+            $location.path('/register');
+        }
+
+        function valid(){
+            var data = $scope.data;
+
+            if(!data.userid){
+                $scope.msg = "帐号不能为空!";
+                return false;
+            }
+
+            if(!data.password){
+                $scope.msg = "密码不能为空!";
+                return false;
+            }
+
+            if(data.code.toLowerCase() !== $scope.valideCode.toLowerCase()){
+                $scope.msg = "验证码输入错误!";
+                return false;
+            }
+            return true;
         }
 
     });

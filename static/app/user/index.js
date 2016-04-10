@@ -12,6 +12,7 @@ var app =
         'ui.utils',
         'cfp.loadingBar',
         'videosystem.login',
+        'videosystem.register',
         'videosystem.main',
         'videosystem.filters'
     ]).config(['$routeProvider', '$sceProvider', '$httpProvider', function ($routeProvider, $sceProvider, $httpProvider) {
@@ -54,6 +55,9 @@ var app =
         }).when('/login', {
             templateUrl: '/app/user/login/login.html',
             controller: 'LoginCtrl'
+        }).when('/register', {
+            templateUrl: '/app/user/register/page.html',
+            controller: 'RegisterCtrl'
         });
         $routeProvider.otherwise({redirectTo: '/login'});
     }]).config(function ($controllerProvider, $compileProvider, $filterProvider, $provide) {

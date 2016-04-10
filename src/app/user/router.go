@@ -23,21 +23,24 @@ func Router(m martini.Router) {
 	m.Any("/", index)
 	m.Any("", index)
 
-
+	//注册
+	m.Any("/register", Register)
+	//登录
 	m.Post("/login", Login)
+	//注销
 	m.Get("/logout", Logout)
 
+	//视频
 	m.Any("/video/upload", videoupload)
 	m.Any("/video/list/:id", clientlist)
 	m.Any("/video/list", videolist)
+	m.Any("/video/del/:id", del)
+	m.Any("/video/changename/:id/:name", changename)
+	//客户端
 	m.Any("/client/reg/:id", reg)
 	m.Any("/client/active/:id", active)
 	m.Any("/client/version/:id", videoversion)
 
-	m.Any("/video/del/:id", del)
-	m.Any("/video/changename/:id/:name", changename)
-
-	//客户端
 	m.Any("/clients", clients)
 	m.Any("/client/add/:id", client_add)
 	m.Any("/client/videoadd/:id/:videoid", client_video_add)
@@ -96,11 +99,43 @@ func isJson(req *http.Request) bool {
 func noAuth(req *http.Request) bool {
 	noauth := bson.M{
 		"/":true,
+		"/register":true,
 		"/login":true    }
 	url := req.URL.String()
 	if noauth[url] == nil {
 		return false
 	}else {
 		return noauth[url].(bool)
+	}
+}
+
+
+
+func Register(session sessions.Session, db *mgo.Database, r render.Render, req *http.Request , writer http.ResponseWriter) {
+	params := util.JsonBody(req)
+	if params == nil {
+		r.JSON(200, JsonRet{false, "用户名不能为空!", nil})
+		return
+	}
+	userid := params["userid"]
+	name := params["name"]
+	password := params["password"]
+	fmt.Println("userid", userid)
+	if userid == "" {
+		r.JSON(200, JsonRet{false, "用户名不能为空!", nil})
+	} else {
+		var result  bson.M
+		err := db.C("auth_user").Find(bson.M{"_id": userid}).One(&result)
+		util.CheckErr(err)
+		if result != nil {
+			r.JSON(200, JsonRet{false, "注册失败!用户名已经存在!", nil})
+		}else {
+			err = db.C("auth_user").Insert(bson.M{"_id": userid, "password":password, "name":name})
+			if err == nil {
+				r.JSON(200, JsonRet{true, "注册成功!", nil})
+			}else {
+				r.JSON(200, JsonRet{false, "注册失败!注册出错,请与系统管理员联系!", err})
+			}
+		}
 	}
 }

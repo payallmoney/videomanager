@@ -21,13 +21,19 @@
             <form role="form" method="post" id="loginForm">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h4 class="modal-title">系统登录</h4>
+                        <h4 class="modal-title">用户注册</h4>
                     </div>
                     <div class="modal-body">
-                        <div style="color:red;padding:10px;text-align: center;" ng-show="!!msg" >{{msg}}</div>
+                        <div style="color:red;padding:10px;text-align: center;" ng-show="!!msg">{{msg}}</div>
+                        <div class="form-group">
+                            帐号<span class="input-icon icon-right inverted">
+                                    <input ng-model="data.userid" type="text" class="form-control" ng-keypress="next()">
+                                    <i class="fa fa-user bg-darkorange"></i>
+                                </span>
+                        </div>
                         <div class="form-group">
                             用户名<span class="input-icon icon-right inverted">
-                                    <input ng-model="data.userid" type="text" class="form-control" ng-keypress="next()">
+                                    <input ng-model="data.name" type="text" class="form-control" ng-keypress="next()">
                                     <i class="fa fa-user bg-darkorange"></i>
                                 </span>
                         </div>
@@ -38,11 +44,19 @@
                                     <i class="fa  fa-lock  bg-palegreen"></i>
                                 </span>
                         </div>
+                        <div class="form-group">
+                            确认密码<span class="input-icon icon-right inverted">
+                                    <input ng-model="data.password_re" type="password" ng-keypress="next()"
+                                           class="form-control">
+                                    <i class="fa  fa-lock  bg-palegreen"></i>
+                                </span>
+                        </div>
 
                         <div class="form-group">
                             验证码
                             <div class="input-group">
-                                <input type="text"   ng-model="data.code" class="form-control" placeholder="验证码" ng-keypress="enterLogin()">
+                                <input type="text"   ng-model="data.code" class="form-control" placeholder="验证码"
+                                       ng-keypress="enterLogin()">
 
                                 <div title="换一个" class="input-group-addon" style="padding:4px;text-align: center;">
                                     <input
@@ -51,11 +65,12 @@
                             </div>
                         </div>
 
-                    </div>
-                    <div class="modal-footer" style="padding:12px 50px 14px 50px;">
-                        <div style="display: inline-block;float:left;">没有帐号?<a style="cursor: pointer;" ng-click="register()">点击注册</a></div>
-                        <button type="button" class="btn btn-primary" ng-click="login()" id="login_sure">登录</button>
 
+                    </div>
+
+                    <div class="modal-footer" style="padding:12px 50px 14px 50px;">
+                        <div style="display: inline-block;float:left;"><a style="cursor: pointer;" ng-click="gotoLogin()">返回登录</a></div>
+                        <button type="button" class="btn btn-primary" ng-click="register()" >注册</button>
                     </div>
                 </div>
             </form>

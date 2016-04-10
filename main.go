@@ -48,26 +48,26 @@ func main() {
 	//缓存
 	cache := make(map[string]interface{})
 	m.Map(cache)
-	m.Any("/login", auth.Login)
-	m.Any("/refresh", auth.Refresh)
-	m.Any("/register", auth.Register)
-	m.Get("/logout", auth.Logout)
-
-	m.Any("/share", auth.Share,auth.Auth)
-	m.Get("/init", getinit)
-	m.Get("/items", items)
-	m.Any("/img/upload", imgupload)
-
-
+	//m.Any("/login", auth.Login)
+	//m.Any("/refresh", auth.Refresh)
+	//m.Any("/register", auth.Register)
+	//m.Get("/logout", auth.Logout)
+	//
+	//m.Any("/share", auth.Share,auth.Auth)
+	//m.Get("/init", getinit)
+	//m.Get("/items", items)
+	//m.Any("/img/upload", imgupload)
 
 
-	m.Post("/img/delete", imgdelete)
+
+
+	//m.Post("/img/delete", imgdelete)
 	//静态内容
 	m.Use(martini.Static("static"))
 
 	//需要权限的内容
 	m.Group("/admin", admin.Router,admin.Auth)
-	m.Group("/", user.Router,user.Auth)
+	m.Group("", user.Router,user.Auth)
 	m.Run();
 	//m.RunOnAddr(":3333")
 }
