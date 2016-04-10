@@ -1,17 +1,6 @@
 'use strict';
 
 angular.module('videosystem.main', ['ngRoute', 'ui.bootstrap'])
-
-    .config(['$routeProvider','$sceProvider', function ($routeProvider,$sceProvider) {
-        $routeProvider.when('/main', {
-            templateUrl: '/app/admin/main/main.html',
-            controller: 'MainCtrl'
-        }).when('/login', {
-            templateUrl: '/app/admin/login/login.html',
-            controller: 'LoginCtrl'
-        });
-    }])
-
     .controller('MainCtrl', function ($scope, Auth, $location, $q,$http,$sce) {
         $scope.tabs = [];
         $scope.activetext = '';

@@ -18,19 +18,17 @@
                     cancelTitle: '撤销',
                     uploadLabel: '上传',
                     uploadTitle: '上传',
-                    allowedFileExtensions: ['mp4','avi','rmvb'],
                     multiple: true,
                     overwriteInitial: false,
                     initialPreviewShowDelete: false,
-                    deleteUrl: '/video/delete',
-                    uploadUrl: '/video/upload',
+                    deleteUrl: '/admin/video/delete',
+                    uploadUrl: '/admin/video/upload',
                     maxFileSize: 20000000,
                     dropZoneTitle: '拖拽视频这里',
                     msgSelected: '选了{n}张视频',
                     initialCaption: ""
                 });
                 $("input[type=file]").fileinput({
-                    'allowedFileExtensions': ['mp4','avi','rmvb'],
                     showRemove: false,
                     autoReplace: true,
                     dropZoneEnabled: false

@@ -19,11 +19,32 @@ type JsonRet struct {
 }
 
 func Router(m martini.Router) {
+
 	m.Any("/", index)
 	m.Any("", index)
+
+
 	m.Post("/login", Login)
+
+	m.Any("/video/upload", videoupload)
+	m.Any("/video/list/:id", clientlist)
 	m.Any("/video/list", videolist)
-	m.Any("/video/clients", clientlist)
+	m.Any("/client/reg/:id", reg)
+	m.Any("/client/active/:id", active)
+	m.Any("/client/version/:id", videoversion)
+	m.Any("/uploadpage", uploadpage)
+	//m.Any("/upload", videouploadpage)
+	m.Any("/video/del/:id", del)
+	m.Any("/video/changename/:id/:name", changename)
+
+	//客户端
+	m.Any("/clients", clients)
+	m.Any("/client/add/:id", client_add)
+	m.Any("/client/videoadd/:id/:videoid", client_video_add)
+	m.Any("/client/videochange/:id/:idx/:videoid", client_video_change)
+	m.Any("/client/videodel/:id/:idx", client_video_del)
+	m.Any("/client/del/:id", client_del)
+
 	m.Any("/program/version", programVersion)
 	m.Any("/program/upload", programUpload)
 	m.Any("/program/delete/:version", programDel)
@@ -45,7 +66,7 @@ func Login(session sessions.Session, db *mgo.Database, r render.Render, req *htt
 		if err == nil {
 			values := result
 			if values["password"] == password {
-				session.Set("admin_userid", values["id"])
+				session.Set("admin_userid", values["_id"])
 				session.Set("admin_username", values["name"])
 				values["password"] = nil;
 				fmt.Println("登录成功!")
@@ -63,6 +84,8 @@ func Logout(session sessions.Session, r render.Render) {
 }
 
 func Auth(session sessions.Session, c martini.Context, r render.Render, req *http.Request) {
+	log.Println(session)
+	log.Println(session.Get("admin_userid"))
 	v := session.Get("admin_userid")
 	if v == nil && !noAuth(req) {
 		if isJson(req) {
