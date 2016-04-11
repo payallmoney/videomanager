@@ -2,7 +2,8 @@
 
 angular.module('videosystem.main', ['ngRoute', 'ui.bootstrap'])
     .controller('MainCtrl', function ($scope, Auth, $location, $q, $http, $sce) {
-        $scope.username = Auth.getUserName();
+        $scope.userInfo = Auth.userinfo;
+        $scope.username = $scope.userInfo.name;
         $scope.tabs = [];
         $scope.activetext = '';
         var init = $q.defer();
@@ -119,6 +120,8 @@ angular.module('videosystem.main', ['ngRoute', 'ui.bootstrap'])
                 }
                 //Slim Scroll Handle
             });
+            //$("#qr-mini").qrcode({"size":30,text:$scope.username});
+
         }
 
 

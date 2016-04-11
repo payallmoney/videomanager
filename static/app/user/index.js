@@ -14,7 +14,8 @@ var app =
         'videosystem.login',
         'videosystem.register',
         'videosystem.main',
-        'videosystem.filters'
+        'videosystem.filters',
+        'myApp.version.version-directive'
     ]).config(['$routeProvider', '$sceProvider', '$httpProvider', function ($routeProvider, $sceProvider, $httpProvider) {
         $httpProvider.interceptors.push(function ($timeout, $q, $injector) {
             var Auth, $http, $location;
@@ -64,7 +65,8 @@ var app =
         app.controller = $controllerProvider.register;
     }).factory('Auth', function ($http, $location, $q) {
         var logined;
-        var userName;
+        var name;
+        var data = {name:null}
         return {
             setlogin: function (islogined) {
                 logined = islogined;
@@ -72,11 +74,13 @@ var app =
             logined:function(){
                 return logined
             },
-            getUserName: function () {
-                return userName;
-            },
-            setUserName: function ( name) {
-                userName = name;
+            getUserName: function(){
+                return data.name;
+            } ,
+            userinfo:data,
+            name :data.name,
+            setUserName: function ( setname) {
+                data.name = setname;
             }
         }
     }).controller('ModalInstanceCtrl', function ($scope, $modalInstance, data) {

@@ -17,19 +17,19 @@
             <!-- /Sidebar Collapse -->
             <!-- Account Area and Settings --->
             <div class="navbar-header pull-right">
+                <qrcode url="/user/userinfo"></qrcode>
                 <div class="navbar-account">
                     <ul class="account-area">
                         <li>
-
                             <a style="min-width: 80px;" class="login-area dropdown-toggle" data-toggle="dropdown">
                                 <section>
-                                    <h2><span class="profile"><span>{{username}}</span></span></h2>
+                                    <h2><span class="profile"><span>{{userInfo.name}}</span></span></h2>
                                 </section>
                             </a>
                             <!--Login Area Dropdown-->
                             <ul class="pull-right dropdown-menu dropdown-arrow dropdown-login-area"
                                 style="min-width: 80px;">
-                                <li class="username"><a>{{username}}</a></li>
+                                <li class="username"><a>{{userInfo.name}}</a></li>
                                 <!--/Theme Selector Area-->
                                 <li class="dropdown-footer">
                                     <a href="/logout">

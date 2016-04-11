@@ -29,6 +29,8 @@ func Router(m martini.Router) {
 	m.Post("/login", Login)
 	//注销
 	m.Get("/logout", Logout)
+	//用户信息
+	m.Get("/user/userinfo", UserInfo)
 
 	//视频
 	m.Any("/video/upload", videoupload)
@@ -78,6 +80,10 @@ func Login(session sessions.Session, db *mgo.Database, r render.Render, req *htt
 func Logout(session sessions.Session, r render.Render) {
 	session.Delete("user_userid")
 	r.Redirect("/")
+}
+
+func UserInfo(session sessions.Session, r render.Render){
+	r.JSON(200, JsonRet{true, "", bson.M{"userid":session.Get("user_userid"),"name":session.Get("user_username")}})
 }
 
 func Auth(session sessions.Session, c martini.Context, r render.Render, req *http.Request) {
