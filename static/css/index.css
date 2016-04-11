@@ -261,14 +261,22 @@ li.jstree-leaf > a > i.jstree-icon.jstree-themeicon {
 .closeX {
     position: relative;
     display: inline-block;
-    top: -10px;
-    margin-left: 10px;
-    margin-right: -10px;
+    /*top: -8px;*/
+    right: -7px;
+    /*margin-right: -5px;*/
     cursor: pointer;
-    font-family: cursive;
-    font-size: 6px;
+    font-family: "宋体";
+    line-height: 16px;
+    font-size: 12px;
+    font-weight: bold;
+    text-align: center;
+    width: 16px;
+    height: 16px;
+    color: #827979;
 }
 
 .closeX:hover{
-    color:red;
+    color: #fff;
+    background-color: #E0594F;
+    border-radius: 15px;
 }
