@@ -13,12 +13,11 @@ angular.module('videosystem.main', ['ngRoute', 'ui.bootstrap'])
         //视频列表
         $scope.videolist = [];
         $scope.videomap = {};
-        $http.get("/user/video/list").then(function (ret) {
+        $http.get("/video/list").then(function (ret) {
             console.log(ret.data);
             $scope.videolist = ret.data;
             for (var i = 0; i < $scope.videolist.length; i++) {
                 var row = $scope.videolist[i];
-                row.src = $sce.trustAsUrl('/uploadvideo/' + row._id);
                 $scope.videomap[row._id] = row;
             }
         });

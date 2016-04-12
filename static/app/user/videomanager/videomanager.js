@@ -19,14 +19,14 @@ app.controller('VideoManagerCtrl', function ($scope, i18nService, $modal, $log,c
 
     $scope.video_del = function(c,i){
         if($window.confirm("确定删除视频\""+ c.name+"\"吗?")==1){
-            $http.get("/user/video/del/"+ c._id).then(function(ret){
+            $http.get("/video/del/"+ c._id).then(function(ret){
                 $scope.$parent.videolist.splice(i,1);
                 $scope.$parent.$digest();
             });
         }
     }
     $scope.change_name = function(c){
-        $http.get("/user/video/changename/"+ c._id+'/'+ c.newname).then(function(ret){
+        $http.get("/video/changename/"+ c._id+'/'+ c.newname).then(function(ret){
             c.name = c.newname;
             c.show=false;
             $scope.$parent.videomap[c._id]= c;

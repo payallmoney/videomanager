@@ -51,7 +51,7 @@ func Router(m martini.Router) {
 	m.Any("/program/delete/:version", programDel)
 	m.Any("/program/list", programList)
 	m.Any("/program/reset", reset)
-	m.Any("/status/:id", client_status)
+
 }
 
 func Login(session sessions.Session, db *mgo.Database, r render.Render, req *http.Request, writer http.ResponseWriter) {
