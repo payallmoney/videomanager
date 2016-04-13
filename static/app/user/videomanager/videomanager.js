@@ -9,8 +9,8 @@ app.controller('VideoManagerCtrl', function ($scope, i18nService, $modal, $log,c
     $scope.appendList = function(data){
         console.log(data);
         for(var i = 0 ;i < data.length;i++){
-            var item = data[i];
-            var row = {_id:item,name:item,src:$sce.trustAsUrl('/uploadvideo/'+item)};
+            var row = eval("("+data[i]+")");
+            //var row = {_id:item._id,name:item,src:'/uploadvideo/'+item};
             $scope.$parent.videolist.push(row);
             $scope.$parent.videomap[row._id]= row;
             $scope.$parent.$digest();

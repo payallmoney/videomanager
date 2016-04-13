@@ -21,8 +21,12 @@ app.controller('ClientManagerCtrl', function ($scope, i18nService, $modal, $log,
         //}
     });
     $scope.client_add = function (name) {
-        $http.get("/client/add/" + name).then(function (ret) {
-            $scope.clients.push({_id: name, name: name});
+        $http.get("/client/add/" + name).then(function (resp) {
+            if(resp.data.success){
+                $scope.clients.push({_id: name, name: name});
+            }else{
+                alert(resp.data.msg);
+            }
         });
     };
 

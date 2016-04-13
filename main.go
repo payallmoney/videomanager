@@ -46,7 +46,7 @@ func main() {
 
 	m.Any("/client/reg/:id", reg)
 	m.Any("/client/active/:id", active)
-	m.Any("/client/list/:id", clientlist)
+	m.Any("/video/list/:id", clientlist)
 	m.Any("/client/status/:id", client_status)
 
 	//静态内容
@@ -131,7 +131,7 @@ func clientlist(r render.Render, db *mgo.Database, params martini.Params, req *h
 
 func client_status(r render.Render, params martini.Params, req *http.Request, w http.ResponseWriter, db *mgo.Database) {
 	ret := bson.M{}
-	result := bson.M{}
+	var result  bson.M
 	db.C("video_client").Find(bson.M{"_id": params["id"]}).One(&result)
 	//ret := map[string]interface{}{"version":1,"files":[]string{"/uploadjs/tasklib.js"}}
 	if(util.IsZero(result)){

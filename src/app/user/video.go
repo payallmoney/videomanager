@@ -13,6 +13,7 @@ import (
 	"os"
 	"github.com/satori/go.uuid"
 	"io"
+	"log"
 )
 
 func clients(r render.Render, db *mgo.Database, params martini.Params, req *http.Request, w http.ResponseWriter,session sessions.Session,) {
@@ -78,13 +79,16 @@ func videoupload(r render.Render, params martini.Params, req *http.Request, w ht
 		}
 		fmt.Println(dir + "/static/uploadvideo/" + newfilename)
 		dst, _ := os.Create(dir + "/static/uploadvideo/" + newfilename)
-		filenames = append(filenames, newfilename)
+
 		defer dst.Close()
 		if _, err := io.Copy(dst, file); err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
-		db.C("video_list").Insert(bson.M{"user": session.Get("user_userid"), "name":newfilename, "src":"/uploadvideo/" + newfilename})
+		id := bson.NewObjectId()
+		obj := bson.M{"_id":id,"user": session.Get("user_userid"), "name":newfilename, "src":"/uploadvideo/" + newfilename}
+		db.C("video_list").Insert(obj)
+		filenames = append(filenames, util.Js(obj))
 	}
 	r.JSON(200, filenames)
 }
@@ -99,7 +103,19 @@ func changename(r render.Render, params martini.Params, req *http.Request, w htt
 }
 
 func client_add(r render.Render, params martini.Params, req *http.Request, w http.ResponseWriter, db *mgo.Database,session sessions.Session,) {
-	db.C("video_client").Update(bson.M{"_id": params["id"]}, bson.M{"$set":bson.M{"user":session.Get("user_userid")}})
+	var result  bson.M
+	db.C("video_client").Find(bson.M{"_id": params["id"]}).One(&result);
+	if result !=nil  {
+		log.Println(result["user"])
+		if(result["user"] == nil){
+			db.C("video_client").Update(bson.M{"_id": params["id"]}, bson.M{"$set":bson.M{"user":session.Get("user_userid")}})
+			r.JSON(200,bson.M{"success":true,"msg":"绑定成功!"})
+		}else{
+			r.JSON(200,bson.M{"success":false,"msg":"无法绑定:设备已经与其他用户绑定!"})
+		}
+	}else{
+		r.JSON(200,bson.M{"success":false,"msg":"无法绑定:设备未注册!"})
+	}
 }
 func client_del(r render.Render, params martini.Params, req *http.Request, w http.ResponseWriter, db *mgo.Database) {
 	db.C("video_client").Remove(bson.M{"_id": params["id"]})
