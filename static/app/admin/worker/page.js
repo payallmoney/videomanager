@@ -1,5 +1,5 @@
 'use strict';
-app.controller('WorkerPageCtrl', function ($scope, i18nService, $modal, $log, cfpLoadingBar, $http, $window) {
+app.controller('WorkerPageCtrl', function ($scope, i18nService, $modal, $log, cfpLoadingBar, $http, $q) {
     $scope.worker = {};
     $scope.msg = "";
     $scope.worker_save = worker_save;
@@ -13,15 +13,15 @@ app.controller('WorkerPageCtrl', function ($scope, i18nService, $modal, $log, cf
     }
     function valid(){
         if(!$scope.worker.account){
-            $scope.msg = "帐号不能为空";
+            $scope.msg = "帐号不能为空!";
             return false;
         }
         if(!$scope.worker.password){
-            $scope.msg = "密码不能为空";
+            $scope.msg = "密码不能为空!";
             return false;
         }
         if($scope.worker.password !== $scope.worker.password_rp){
-            $scope.msg = "两次密码不匹配不能为空";
+            $scope.msg = "两次密码不匹配!";
             return false;
         }
         $scope.msg = "";
@@ -53,13 +53,18 @@ app.controller('WorkerCtrl', function ($scope, i18nService, $modal, $log, cfpLoa
         buttons: {
             "保存": function () {
                 var dialog =  $(this);
-                $("#worker_dialog").scope().worker_save().then(function(resp){
-                    console.log(resp);
-                    if(resp.data.Success){
-                        dialog.dialog("close");
-                        init();
-                    }
-                })
+                var save = $("#worker_dialog").scope().worker_save();
+                if(save){
+                    save.then(function(resp){
+                        console.log(resp);
+                        if(resp.data.Success){
+                            dialog.dialog("close");
+                            init();
+                        }
+                    })
+                }else{
+                    $("#worker_dialog").scope().$digest();
+                }
             },
             "关闭": function () {
                 $(this).dialog("close");

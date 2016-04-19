@@ -3,7 +3,7 @@ app.controller('UserPageCtrl', function ($scope, i18nService, $modal, $log, cfpL
     $scope.user = {};
     $scope.msg = "";
     $scope.user_save = user_save;
-    $scope.setWorker = setWorker;
+    $scope.setUser  = setUser ;
     $scope.setEdit = setEdit;
 
     function user_save() {
@@ -13,15 +13,15 @@ app.controller('UserPageCtrl', function ($scope, i18nService, $modal, $log, cfpL
     }
     function valid(){
         if(!$scope.user._id){
-            $scope.msg = "帐号不能为空";
+            $scope.msg = "帐号不能为空!";
             return false;
         }
         if(!$scope.user.password){
-            $scope.msg = "密码不能为空";
+            $scope.msg = "密码不能为空!";
             return false;
         }
-        if($scope.user.password !== $scope.worker.password_rp){
-            $scope.msg = "两次密码不匹配不能为空";
+        if($scope.user.password !== $scope.user.password_rp){
+            $scope.msg = "两次密码不匹配!";
             return false;
         }
         $scope.msg = "";
@@ -37,7 +37,7 @@ app.controller('UserPageCtrl', function ($scope, i18nService, $modal, $log, cfpL
 
 });
 
-app.controller('WorkerCtrl', function ($scope, i18nService, $modal, $log, cfpLoadingBar, $http, $window) {
+app.controller('UserCtrl', function ($scope, i18nService, $modal, $log, cfpLoadingBar, $http, $window) {
     //初始化查询参数
     //以下处理是为了防止树内容一次加载导致的性能问题,改为了点击加载 , 使用了非deepcopy
     $scope.users = [];
@@ -51,16 +51,6 @@ app.controller('WorkerCtrl', function ($scope, i18nService, $modal, $log, cfpLoa
         modal: true,
         height: 300,
         buttons: {
-            "保存": function () {
-                var dialog =  $(this);
-                $("#user_dialog").scope().user_save().then(function(resp){
-                    console.log(resp);
-                    if(resp.data.Success){
-                        dialog.dialog("close");
-                        init();
-                    }
-                })
-            },
             "关闭": function () {
                 $(this).dialog("close");
             }
@@ -80,8 +70,9 @@ app.controller('WorkerCtrl', function ($scope, i18nService, $modal, $log, cfpLoa
     }
 
     function user_edit(idx){
-        var worker = $scope.users[idx];
-        $("#user_dialog").scope().setUser(worker);
+        var user = $scope.users[idx];
+        console.log(user);
+        $("#user_dialog").scope().setUser(user);
         $("#user_dialog").scope().setEdit(true);
         $("#user_dialog").dialog("option", "title", "修改工作人员");
         $("#user_dialog").dialog("open");
@@ -89,8 +80,12 @@ app.controller('WorkerCtrl', function ($scope, i18nService, $modal, $log, cfpLoa
     function user_del(idx){
         var worker = $scope.users[idx];
         if ($window.confirm("确定删除工作人员\"" + worker._id + "\"吗?") == 1) {
-            $http.post("/admin/worker/del",worker).then(function (ret) {
-                $scope.workers.splice(idx, 1);
+            $http.post("/admin/user/del",worker).then(function (ret) {
+                if(ret.data.Success){
+                    $scope.users.splice(idx, 1);
+                }else{
+                    alert('删除失败!'+ret.data.Msg);
+                }
             });
         }
     }

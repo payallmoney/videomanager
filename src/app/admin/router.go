@@ -56,7 +56,14 @@ func Router(m martini.Router) {
 	m.Any("/workers", workers)
 	m.Any("/worker/add", worker_add)
 	m.Any("/worker/del", worker_del)
-	m.Any("/worker/udp", worker_udp)
+
+	m.Any("/users", users)
+	m.Any("/user/add", user_add)
+	m.Any("/user/del", user_del)
+
+	m.Any("/admins", admins)
+	m.Any("/admin/add", admin_add)
+	m.Any("/admin/del", admin_del)
 }
 
 func Login(session sessions.Session, db *mgo.Database, r render.Render, req *http.Request, writer http.ResponseWriter) {

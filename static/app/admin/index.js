@@ -28,17 +28,10 @@ var app =
 
             return {
                 response: function (rejection) {
-                    console.log(rejection);
                     var deferred = $q.defer();
                     if (rejection.status == 401) {
-                        Auth.logindlg()
-                            .then(function () {
-                                deferred.resolve();
-                                $state.go(toState.name, toParams);
-                            }).catch(function () {
-                            deferred.reject(rejection);
-                            $location.path('/login');
-                        });
+                        deferred.reject(rejection);
+                        $location.path('/login');
                     } else {
                         deferred.resolve(rejection);
                     }

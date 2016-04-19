@@ -1,0 +1,44 @@
+<div class="fill" ng-controller="AdminCtrl" style="overflow-y: scroll;">
+
+    <div style="padding:20px;">
+        <a class="btn btn-sm btn-blue" ng-click="admin_add(name)">增加管理员</a>
+        <table class="table">
+            <thead>
+                <th>帐号</th>
+                <th>姓名</th>
+                <th>操作</th>
+            </thead>
+            <tbody>
+            <tr ng-repeat="c in users">
+                <td>{{c._id}}</td>
+                <td>{{c.name}}</td>
+                <td>
+                    <a class="btn" ng-click="admin_edit($index)">修改</a>
+                    &nbsp;
+                    <a class="btn" ng-click="admin_del($index)">删除</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div id="admin_dialog" ng-controller="AdminPageCtrl">
+    <div ng-show="!!msg" style="width:100%;text-align: center;color: red;">{{msg}}</div>
+    <div class="input-group">
+        <span class="input-group-addon" style="width: 100px;text-align: right;">登录帐号：</span>
+        <input type="text" class="form-control" ng-disabled="edit" ng-model="user._id" placeholder="登录帐号" aria-describedby="basic-addon1">
+    </div>
+    <div class="input-group">
+        <span class="input-group-addon" style="width: 100px;text-align: right;">姓名：</span>
+        <input type="text" class="form-control" ng-model="user.name" placeholder="姓名" aria-describedby="basic-addon1">
+    </div>
+    <div class="input-group">
+        <span class="input-group-addon" style="width: 100px;text-align: right;">密码：</span>
+        <input type="password" class="form-control" ng-model="user.password" placeholder="密码" aria-describedby="basic-addon1">
+    </div>
+    <div class="input-group">
+        <span class="input-group-addon" style="width: 100px;text-align: right;">重复密码：</span>
+        <input type="password" class="form-control" ng-model="user.password_rp" placeholder="重复密码" aria-describedby="basic-addon1">
+    </div>
+</div>
