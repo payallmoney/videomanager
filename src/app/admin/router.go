@@ -51,7 +51,12 @@ func Router(m martini.Router) {
 	m.Any("/program/delete/:version", programDel)
 	m.Any("/program/list", programList)
 	m.Any("/program/reset", reset)
+	//worker
 
+	m.Any("/workers", workers)
+	m.Any("/worker/add", worker_add)
+	m.Any("/worker/del", worker_del)
+	m.Any("/worker/udp", worker_udp)
 }
 
 func Login(session sessions.Session, db *mgo.Database, r render.Render, req *http.Request, writer http.ResponseWriter) {
@@ -85,8 +90,6 @@ func Logout(session sessions.Session, r render.Render) {
 }
 
 func Auth(session sessions.Session, c martini.Context, r render.Render, req *http.Request) {
-	log.Println(session)
-	log.Println(session.Get("admin_userid"))
 	v := session.Get("admin_userid")
 	if v == nil && !noAuth(req) {
 		if isJson(req) {

@@ -15,6 +15,12 @@ import (
 	"net/http"
 )
 
+type JsonRet struct {
+	Success bool
+	Msg    string
+	Data   interface{}
+}
+
 func CheckErr(err error) {
 	var rootpath, _ = filepath.Abs(filepath.Dir(os.Args[0]))
 	if err != nil {
@@ -32,8 +38,9 @@ func CheckErr(err error) {
 	}
 }
 
-func Jsonp(obj interface{}, callback string) string {
+func Jsonp(obj interface{}, req *http.Request) string {
 	b, _ := json.Marshal(obj)
+	callback := req.FormValue("callback")
 	return callback + "(" + string(b) + ")"
 }
 
@@ -73,4 +80,8 @@ func JsonBody(req *http.Request) bson.M {
 func Js(obje interface{}) string {
 	bytes ,_ := json.Marshal(obje)
 	return string(bytes)
+}
+
+func IsJson(req *http.Request) bool {
+	return req.Header.Get("accept")[:16] == "application/json"
 }

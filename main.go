@@ -14,6 +14,7 @@ import (
 	"fmt"
 	"github.com/payallmoney/videomanager/src/app/admin"
 	"github.com/payallmoney/videomanager/src/app/user"
+	"github.com/payallmoney/videomanager/src/app/worker"
 	"log"
 	"reflect"
 )
@@ -55,6 +56,7 @@ func main() {
 
 	//需要权限的内容
 	m.Group("/admin", admin.Router,admin.Auth)
+	m.Group("/worker", worker.Router,worker.Auth)
 	m.Group("", user.Router,user.Auth)
 	m.Run();
 	//m.RunOnAddr(":3333")
@@ -68,15 +70,14 @@ func index(db *mgo.Database, r render.Render, req *http.Request, inicfg *config.
 func getinit(session sessions.Session, db *mgo.Database, r render.Render, req *http.Request , writer http.ResponseWriter) string {
 	writer.Header().Set("Content-Type", "text/javascript")
 	ret := bson.M{};
-	callback := req.FormValue("callback")
 	cats := []interface{}{}
 	err := db.C("good_cats").Find(bson.M{}).All(&cats)
 
 	if err == nil {
 		ret["cats"] = cats;
-		return util.Jsonp(auth.JsonRet{"login", 200, "初始化数据成功", ret}, callback)
+		return util.Jsonp(auth.JsonRet{"login", 200, "初始化数据成功", ret}, req)
 	}else {
-		return util.Jsonp(auth.JsonRet{"login", 401, "初始化数据成功失败!请稍后再试!", nil}, callback)
+		return util.Jsonp(auth.JsonRet{"login", 401, "初始化数据成功失败!请稍后再试!", nil}, req)
 	}
 }
 

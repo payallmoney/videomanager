@@ -22,11 +22,10 @@ type JsonRet struct {
 func Login(session sessions.Session, db *mgo.Database, r render.Render, req *http.Request , writer http.ResponseWriter) string {
 	writer.Header().Set("Content-Type", "text/javascript")
 	userid := req.FormValue("userid")
-	callback := req.FormValue("callback")
 	password := req.FormValue("password")
 	fmt.Println("userid", userid)
 	if userid == "" {
-		return util.Jsonp(JsonRet{"login", 401, "请登录", "abc"}, callback)
+		return util.Jsonp(JsonRet{"login", 401, "请登录", "abc"}, req)
 	} else {
 		result := bson.M{}
 		err := db.C("auth_user").Find(bson.M{"id": userid}).One(&result)
@@ -43,13 +42,13 @@ func Login(session sessions.Session, db *mgo.Database, r render.Render, req *htt
 				db.C("good_shares").Find(bson.M{"acc": userid}).All(&items)
 				values["items"] = items;
 				fmt.Println("登录成功!")
-				return util.Jsonp(JsonRet{"login", 200, "登录成功", values}, callback)
+				return util.Jsonp(JsonRet{"login", 200, "登录成功", values}, req)
 
 			}else {
-				return util.Jsonp(JsonRet{"login", 401, "登录失败!密码错误!", nil}, callback)
+				return util.Jsonp(JsonRet{"login", 401, "登录失败!密码错误!", nil}, req)
 			}
 		}else {
-			return util.Jsonp(JsonRet{"login", 401, "登录失败!用户名错误!", nil}, callback)
+			return util.Jsonp(JsonRet{"login", 401, "登录失败!用户名错误!", nil}, req)
 		}
 	}
 }
@@ -57,9 +56,8 @@ func Login(session sessions.Session, db *mgo.Database, r render.Render, req *htt
 func Refresh(session sessions.Session, db *mgo.Database, r render.Render, req *http.Request , writer http.ResponseWriter) string {
 	writer.Header().Set("Content-Type", "text/javascript")
 	userid := session.Get("userid")
-	callback := req.FormValue("callback")
 	if userid == "" {
-		return util.Jsonp(JsonRet{"login", 401, "请登录", "abc"}, callback)
+		return util.Jsonp(JsonRet{"login", 401, "请登录", "abc"}, req)
 	} else {
 		result := bson.M{}
 		err := db.C("auth_user").Find(bson.M{"id": userid}).One(&result)
@@ -70,9 +68,9 @@ func Refresh(session sessions.Session, db *mgo.Database, r render.Render, req *h
 			db.C("good_shares").Find(bson.M{"acc": userid}).All(&items)
 			values["items"] = items;
 			fmt.Println("登录成功!")
-			return util.Jsonp(JsonRet{"login", 200, "刷新数据成功", values}, callback)
+			return util.Jsonp(JsonRet{"login", 200, "刷新数据成功", values}, req)
 		}else {
-			return util.Jsonp(JsonRet{"login", 401, "刷新数据失败!请稍后再试!", nil}, callback)
+			return util.Jsonp(JsonRet{"login", 401, "刷新数据失败!请稍后再试!", nil}, req)
 		}
 	}
 }
@@ -81,22 +79,21 @@ func Register(session sessions.Session, db *mgo.Database, r render.Render, req *
 	writer.Header().Set("Content-Type", "text/javascript")
 	userid := req.FormValue("userid")
 	name := req.FormValue("name")
-	callback := req.FormValue("callback")
 	password := req.FormValue("password")
 	fmt.Println("userid", userid)
 	if userid == "" {
-		return util.Jsonp(JsonRet{"register", 400, "用户名不能为空", nil}, callback)
+		return util.Jsonp(JsonRet{"register", 400, "用户名不能为空", nil}, req)
 	} else {
 		result := bson.M{}
 		err := db.C("auth_user").Find(bson.M{"id": userid}).One(&result)
 		if err == nil {
-			return util.Jsonp(JsonRet{"login", 400, "注册失败!用户名已经存在!", nil}, callback)
+			return util.Jsonp(JsonRet{"login", 400, "注册失败!用户名已经存在!", nil}, req)
 		}else {
 			err = db.C("auth_user").Insert(bson.M{"id": userid, "password":password, "name":name, "points":10, "todayadd":0, "creditpoint":0, "creditprecent":100})
 			if err == nil {
-				return util.Jsonp(JsonRet{"login", 200, "注册成功", nil}, callback)
+				return util.Jsonp(JsonRet{"login", 200, "注册成功", nil}, req)
 			}else {
-				return util.Jsonp(JsonRet{"login", 400, "注册失败!请稍后再试", nil}, callback)
+				return util.Jsonp(JsonRet{"login", 400, "注册失败!请稍后再试", nil}, req)
 			}
 		}
 	}
@@ -125,7 +122,6 @@ func Share(session sessions.Session, db *mgo.Database, r render.Render, req *htt
 	userid := session.Get("userid")
 	name := req.FormValue("name")
 	imgsrc := req.FormValue("imgsrc")
-	callback := req.FormValue("callback")
 	remark := req.FormValue("remark")
 	sharepoint := req.FormValue("sharepoint")
 	cat := req.FormValue("cat")
@@ -140,22 +136,22 @@ func Share(session sessions.Session, db *mgo.Database, r render.Render, req *htt
 	fmt.Println("cat==" + cat)
 
 	if name == "" {
-		return util.Jsonp(JsonRet{"register", 400, "名称不能为空", nil}, callback)
+		return util.Jsonp(JsonRet{"register", 400, "名称不能为空", nil}, req)
 	}else if imgsrc == "" {
-		return util.Jsonp(JsonRet{"register", 400, "图片不能为空", nil}, callback)
+		return util.Jsonp(JsonRet{"register", 400, "图片不能为空", nil}, req)
 	}else if remark == "" {
-		return util.Jsonp(JsonRet{"register", 400, "详细信息不能为空", nil}, callback)
+		return util.Jsonp(JsonRet{"register", 400, "详细信息不能为空", nil}, req)
 	}else if cat == "" || len(cat) <= 0 {
-		return util.Jsonp(JsonRet{"register", 400, "分类不能为空", nil}, callback)
+		return util.Jsonp(JsonRet{"register", 400, "分类不能为空", nil}, req)
 	}  else {
 		err := db.C("good_shares").Insert(
 		bson.M{"acc": userid, "name":name, "imgsrc":imgsrc,
 		"sharepoint":sharepoint, "remark":remark, "state":"正在出借",
 		"cat":cat})
 		if err == nil {
-			return util.Jsonp(JsonRet{"login", 200, "分享成功", nil}, callback)
+			return util.Jsonp(JsonRet{"login", 200, "分享成功", nil}, req)
 		}else {
-			return util.Jsonp(JsonRet{"login", 400, "分享失败!请稍后再试", nil}, callback)
+			return util.Jsonp(JsonRet{"login", 400, "分享失败!请稍后再试", nil}, req)
 		}
 	}
 }

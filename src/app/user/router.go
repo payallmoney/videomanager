@@ -12,11 +12,7 @@ import (
 	"github.com/payallmoney/videomanager/src/util"
 )
 
-type JsonRet struct {
-	Success bool
-	Msg    string
-	Data   interface{}
-}
+
 
 func Router(m martini.Router) {
 
@@ -68,12 +64,12 @@ func Login(session sessions.Session, db *mgo.Database, r render.Render, req *htt
 				session.Set("user_username", values["name"])
 				values["password"] = nil;
 				fmt.Println("登录成功!")
-				r.JSON(200, JsonRet{true, "登录成功", values})
+				r.JSON(200, util.JsonRet{true, "登录成功", values})
 				return
 			}
 		}
 	}
-	r.JSON(200, JsonRet{false,  "登录失败!用户名或密码错误!", nil})
+	r.JSON(200, util.JsonRet{false,  "登录失败!用户名或密码错误!", nil})
 }
 
 func Logout(session sessions.Session, r render.Render) {
@@ -82,14 +78,14 @@ func Logout(session sessions.Session, r render.Render) {
 }
 
 func UserInfo(session sessions.Session, r render.Render){
-	r.JSON(200, JsonRet{true, "", bson.M{"userid":session.Get("user_userid"),"name":session.Get("user_username")}})
+	r.JSON(200, util.JsonRet{true, "", bson.M{"userid":session.Get("user_userid"),"name":session.Get("user_username")}})
 }
 
 func Auth(session sessions.Session, c martini.Context, r render.Render, req *http.Request) {
 	v := session.Get("user_userid")
 	if v == nil && !noAuth(req) {
-		if isJson(req) {
-			r.JSON(401, JsonRet{false, "登录失败!用户名错误!", nil})
+		if util.IsJson(req) {
+			r.JSON(401, util.JsonRet{false, "登录失败!用户名错误!", nil})
 		}else {
 			r.Redirect("/")
 		}
@@ -98,9 +94,7 @@ func Auth(session sessions.Session, c martini.Context, r render.Render, req *htt
 	}
 }
 
-func isJson(req *http.Request) bool {
-	return req.Header.Get("accept")[:16] == "application/json"
-}
+
 func noAuth(req *http.Request) bool {
 	noauth := bson.M{
 		"/":true,
@@ -119,7 +113,7 @@ func noAuth(req *http.Request) bool {
 func Register(session sessions.Session, db *mgo.Database, r render.Render, req *http.Request , writer http.ResponseWriter) {
 	params := util.JsonBody(req)
 	if params == nil {
-		r.JSON(200, JsonRet{false, "用户名不能为空!", nil})
+		r.JSON(200, util.JsonRet{false, "用户名不能为空!", nil})
 		return
 	}
 	userid := params["userid"]
@@ -127,19 +121,19 @@ func Register(session sessions.Session, db *mgo.Database, r render.Render, req *
 	password := params["password"]
 	fmt.Println("userid", userid)
 	if userid == "" {
-		r.JSON(200, JsonRet{false, "用户名不能为空!", nil})
+		r.JSON(200, util.JsonRet{false, "用户名不能为空!", nil})
 	} else {
 		var result  bson.M
 		err := db.C("auth_user").Find(bson.M{"_id": userid}).One(&result)
 		util.CheckErr(err)
 		if result != nil {
-			r.JSON(200, JsonRet{false, "注册失败!用户名已经存在!", nil})
+			r.JSON(200, util.JsonRet{false, "注册失败!用户名已经存在!", nil})
 		}else {
 			err = db.C("auth_user").Insert(bson.M{"_id": userid, "password":password, "name":name})
 			if err == nil {
-				r.JSON(200, JsonRet{true, "注册成功!", nil})
+				r.JSON(200,util. JsonRet{true, "注册成功!", nil})
 			}else {
-				r.JSON(200, JsonRet{false, "注册失败!注册出错,请与系统管理员联系!", err})
+				r.JSON(200, util.JsonRet{false, "注册失败!注册出错,请与系统管理员联系!", err})
 			}
 		}
 	}

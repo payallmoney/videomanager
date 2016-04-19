@@ -1,4 +1,4 @@
-package video
+package worker
 
 import (
 	"github.com/go-martini/martini"
@@ -32,10 +32,6 @@ func videouploadpage(r render.Render, w http.ResponseWriter) {
 	r.HTML(200, "videoupload", nil)
 }
 
-func videoindex(r render.Render, w http.ResponseWriter) {
-	w.Header().Set("Access-Control-Allow-Origin", "*")
-	r.HTML(200, "video_index", nil)
-}
 
 func reg(r render.Render, params martini.Params, req *http.Request, w http.ResponseWriter, db *mgo.Database) {
 	w.Header().Set("Access-Control-Allow-Origin", "*")

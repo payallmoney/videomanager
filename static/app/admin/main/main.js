@@ -42,6 +42,11 @@ angular.module('videosystem.main', ['ngRoute', 'ui.bootstrap'])
                 "text": '客户端程序管理',
                 "js": "/app/admin/program/page.js",
                 'html': '/app/admin/program/page.html'
+            },
+            {
+                "text": '工作人员管理',
+                "js": "/app/admin/worker/page.js",
+                'html': '/app/admin/worker/page.html'
             }];
         $scope.loadTab($scope.menu[0]);
         initPage();

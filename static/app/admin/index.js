@@ -84,4 +84,4 @@ var app =
         $scope.cancel = function () {
             $modalInstance.dismiss('cancel');
         };
-    })
+    });
