@@ -19,7 +19,7 @@ func Router(m martini.Router) {
 	m.Any("/logout", Logout)
 }
 
-func Login(session sessions.Session, db *mgo.Database, r render.Render , req *http.Request, writer http.ResponseWriter) {
+func Login(session sessions.Session, db *mgo.Database, r render.Render , req *http.Request, writer http.ResponseWriter) string {
 	writer.Header().Set("Content-Type", "text/javascript")
 	//params := util.JsonBody(req)
 	//params = req.PostForm
@@ -36,13 +36,14 @@ func Login(session sessions.Session, db *mgo.Database, r render.Render , req *ht
 				session.Set("worker_userid", values["_id"])
 				session.Set("worker_username", values["name"])
 				values["password"] = nil;
+				values["password_rp"] = nil;
 				fmt.Println("登录成功!")
-				r.JSON(200, util.Jsonp(util.JsonRet{true, "登录成功", values},req))
-				return
+				//r.JSON(200, util.Jsonp(util.JsonRet{true, "登录成功", values},req))
+				return util.Jsonp(util.JsonRet{true, "登录成功", values},req)
 			}
 		}
 	}
-	r.JSON(200,util.Jsonp(util.JsonRet{false, "登录失败!用户名或密码错误!", nil},req))
+	return util.Jsonp(util.JsonRet{false, "登录失败!用户名或密码错误!", nil},req)
 }
 
 func Logout(session sessions.Session, r render.Render) {
@@ -56,8 +57,9 @@ func UserInfo(session sessions.Session, r render.Render) {
 
 func Auth(session sessions.Session, c martini.Context, r render.Render, req *http.Request) {
 	v := session.Get("worker_userid")
+	log.Println(!noAuth(req))
 	if v == nil && !noAuth(req) {
-		r.JSON(401,util.Jsonp( util.JsonRet{false, "登录失败!用户名错误!", nil},req))
+		r.JSON(401,util.Jsonp( util.JsonRet{false, "没有权限!", nil},req))
 	}else {
 		c.Next();
 	}
