@@ -31,7 +31,7 @@ func findClient(params martini.Params, db *mgo.Database, req *http.Request) stri
 	err := db.C("video_client").Find(bson.M{"_id": id}).One(&result)
 	if err ==nil && result !=nil  {
 		if(result["user"] == nil){
-			db.C("video_client").Update(bson.M{"_id": params["id"]}, bson.M{"$set":bson.M{"user":userid}})
+			db.C("video_client").Update(bson.M{"_id": id}, bson.M{"$set":bson.M{"user":userid}})
 			return util.Jsonp(util.JsonRet{true, "绑定成功!", result}, req)
 		}else{
 			return util.Jsonp(util.JsonRet{false, "无法绑定:设备已经与其他用户绑定!", nil}, req)
