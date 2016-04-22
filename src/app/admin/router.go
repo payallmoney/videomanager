@@ -46,7 +46,7 @@ func Router(m martini.Router) {
 	m.Any("/client/videodel/:id/:idx", client_video_del)
 	m.Any("/client/del/:id", client_del)
 
-	m.Any("/program/version", programVersion)
+
 	m.Any("/program/upload", programUpload)
 	m.Any("/program/delete/:version", programDel)
 	m.Any("/program/list", programList)

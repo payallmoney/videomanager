@@ -21,7 +21,7 @@ import (
 
 
 
-func programVersion(r render.Render, params martini.Params, req *http.Request, w http.ResponseWriter, db *mgo.Database) {
+func ProgramVersion(r render.Render, params martini.Params, req *http.Request, w http.ResponseWriter, db *mgo.Database) {
 	var result  bson.M
 	//db.collection.find().sort({age:-1}).limit(1)
 	db.C("video_program").Find(bson.M{}).Sort("-version").One(&result);

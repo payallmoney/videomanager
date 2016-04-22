@@ -53,7 +53,7 @@ func main() {
 	//静态内容
 	m.Use(martini.Static("static"))
 
-
+	m.Any("/program/version", admin.ProgramVersion)
 	//需要权限的内容
 	m.Group("/admin", admin.Router,admin.Auth)
 	m.Group("/worker", worker.Router,worker.Auth)
