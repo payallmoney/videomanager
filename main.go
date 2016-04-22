@@ -118,13 +118,18 @@ func clientlist(r render.Render, db *mgo.Database, params martini.Params, req *h
 	db.C("video_client").Find(bson.M{"_id": params["id"]}).One(&result)
 	//	list ,_:= bson.Marshal( result["videolist"])
 	list := result["videolist"];
-	var ret  []string
+	var ret  []bson.M
 	if (list != nil) {
 		videolist := reflect.ValueOf(list)
-		ret = make([]string,videolist.Len())
+		ret = make([]bson.M,videolist.Len())
 		for i := 0; i < videolist.Len(); i ++ {
 			row := videolist.Index(i).Elem()
-			ret[i] = row.MapIndex(reflect.ValueOf("src")).Elem().String();
+			item := bson.M{}
+			item["hash"] = row.MapIndex(reflect.ValueOf("hash")).Elem().String();
+			item["src"] = row.MapIndex(reflect.ValueOf("src")).Elem().String();
+			ret[i] = item
+
+			log.Println(util.Js(item))
 		}
 	}
 	r.JSON(200, ret)

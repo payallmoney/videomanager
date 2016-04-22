@@ -13,6 +13,8 @@ import (
 	"io/ioutil"
 	"gopkg.in/mgo.v2/bson"
 	"net/http"
+	"crypto/md5"
+	"fmt"
 )
 
 type JsonRet struct {
@@ -65,7 +67,6 @@ func Version(version string) float64 {
 		f1 = 100
 		f2 = float64(2 - i)
 		ret += vfloats[i] * math.Pow(f1, f2)
-
 	}
 	return ret
 }
@@ -84,4 +85,20 @@ func Js(obje interface{}) string {
 
 func IsJson(req *http.Request) bool {
 	return req.Header.Get("accept")[:16] == "application/json"
+}
+
+func ComputeMd5(filePath string) (string, error) {
+	var result []byte
+	file, err := os.Open(filePath)
+	if err != nil {
+		return "", err
+	}
+	defer file.Close()
+
+	hash := md5.New()
+	if _, err := io.Copy(hash, file); err != nil {
+		return "", err
+	}
+
+	return fmt.Sprintf("%x",hash.Sum(result)), nil
 }

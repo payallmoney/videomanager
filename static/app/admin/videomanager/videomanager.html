@@ -30,10 +30,11 @@
                 });
                 $("input[type=file]").fileinput({
                     showRemove: false,
+                    showPreview: false,
                     autoReplace: true,
                     dropZoneEnabled: false
                 });
-                $("#videomanager_upload").on("fileuploaded", "input[type=file]", function (e, data) {
+                $("#videomanager_upload").on("filebatchuploadsuccess", "input[type=file]", function (e, data) {
                     var scope = angular.element("#VideoManagerCtrl").scope();
                     scope.appendList(data.response);
                     scope.$digest();

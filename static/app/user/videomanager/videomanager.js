@@ -13,7 +13,7 @@ app.controller('VideoManagerCtrl', function ($scope, i18nService, $modal, $log,c
             //var row = {_id:item._id,name:item,src:'/uploadvideo/'+item};
             $scope.$parent.videolist.push(row);
             $scope.$parent.videomap[row._id]= row;
-            $scope.$parent.$digest();
+            //$scope.$parent.$digest();
         }
     }
 
@@ -21,7 +21,7 @@ app.controller('VideoManagerCtrl', function ($scope, i18nService, $modal, $log,c
         if($window.confirm("确定删除视频\""+ c.name+"\"吗?")==1){
             $http.get("/video/del/"+ c._id).then(function(ret){
                 $scope.$parent.videolist.splice(i,1);
-                $scope.$parent.$digest();
+                //$scope.$parent.$digest();
             });
         }
     }
@@ -30,7 +30,7 @@ app.controller('VideoManagerCtrl', function ($scope, i18nService, $modal, $log,c
             c.name = c.newname;
             c.show=false;
             $scope.$parent.videomap[c._id]= c;
-            $scope.$parent.$digest();
+            //$scope.$parent.$digest();
         });
     }
     $scope.change_name_cancel = function(c){

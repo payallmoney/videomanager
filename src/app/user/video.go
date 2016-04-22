@@ -78,15 +78,18 @@ func videoupload(r render.Render, params martini.Params, req *http.Request, w ht
 			newfilename = uuid.NewV4().String() + ext
 		}
 		fmt.Println(dir + "/static/uploadvideo/" + newfilename)
-		dst, _ := os.Create(dir + "/static/uploadvideo/" + newfilename)
+		filepath :=dir + "/static/uploadvideo/" + newfilename
+		dst, _ := os.Create(filepath)
 
 		defer dst.Close()
 		if _, err := io.Copy(dst, file); err != nil {
+
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
+		hash , _:=util.ComputeMd5(filepath)
 		id := bson.NewObjectId()
-		obj := bson.M{"_id":id,"user": session.Get("user_userid"), "name":newfilename, "src":"/uploadvideo/" + newfilename}
+		obj := bson.M{"_id":id,"user": session.Get("user_userid"), "name":newfilename,"hash":hash, "src":"/uploadvideo/" + newfilename}
 		db.C("video_list").Insert(obj)
 		filenames = append(filenames, util.Js(obj))
 	}
@@ -128,7 +131,8 @@ func client_video_add(r render.Render, params martini.Params, req *http.Request,
 	result := bson.M{}
 	db.C("video_list").Find(bson.M{"_id": bson.ObjectIdHex(params["videoid"])}).One(&result);
 	str, _ := result["src"].(string)
-	db.C("video_client").Update(bson.M{"_id": params["id"]}, bson.M{"$push":bson.M{"videolist":bson.M{"_id":params["videoid"], "src":str}}})
+	hash, _ := result["hash"].(string)
+	db.C("video_client").Update(bson.M{"_id": params["id"]}, bson.M{"$push":bson.M{"videolist":bson.M{"_id":params["videoid"], "src":str,"hash":hash}}})
 }
 func client_video_del(r render.Render, params martini.Params, req *http.Request, w http.ResponseWriter, db *mgo.Database) {
 	//	db.C("video_client").Remove(bson.M{"_id": params["id"] ,"videolist":params["idx"]});

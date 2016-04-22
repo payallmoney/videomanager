@@ -17,6 +17,8 @@ import (
 func Router(m martini.Router) {
 	m.Any("/login", Login)
 	m.Any("/logout", Logout)
+	m.Any("/finduser/:userid", findUser)
+	m.Any("/findclient/:clientid/:userid", findClient)
 }
 
 func Login(session sessions.Session, db *mgo.Database, r render.Render , req *http.Request, writer http.ResponseWriter) string {
@@ -74,6 +76,8 @@ func isJson(req *http.Request) bool {
 		return req.Header.Get("accept")[:16] == "application/json"
 	}
 }
+
+
 func noAuth(req *http.Request) bool {
 	noauth := bson.M{
 		"/worker":true,
