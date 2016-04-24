@@ -45,6 +45,7 @@ func main() {
 	cache := make(map[string]interface{})
 	m.Map(cache)
 
+	m.Any("/test", test)
 	m.Any("/client/reg/:id", reg)
 	m.Any("/client/active/:id", active)
 	m.Any("/video/list/:id", clientlist)
@@ -62,6 +63,9 @@ func main() {
 	//m.RunOnAddr(":3333")
 }
 
+func test() string{
+	return "连接测试"
+}
 func index(db *mgo.Database, r render.Render, req *http.Request, inicfg *config.Config) {
 	ret := make(map[string]interface{})
 	r.HTML(200, "index", ret)
