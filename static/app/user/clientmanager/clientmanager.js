@@ -3,24 +3,43 @@
 
 app.controller('ClientManagerCtrl', function ($scope, i18nService, $modal, $log, cfpLoadingBar, $http, $window) {
     //初始化查询参数
-    //以下处理是为了防止树内容一次加载导致的性能问题,改为了点击加载 , 使用了非deepcopy
     $scope.clients = [];
     $http.get("/clients").then(function (ret) {
         $scope.clients = ret.data;
-        console.log(ret.data);
         $scope.clients[0].show = true;
-        //for (var i = 0; i < $scope.clients.length; i++) {
-        //    var row = $scope.clients[i];
-        //    if (row.videolist) {
-        //        row.videolist = [];
-        //        for (var j = 0; j < row.videolist.length; j++) {
-        //            var item = row.videolist[j];
-        //            row.videolist.push({_id: item, new_id: item, show: false});
-        //        }
-        //    }
-        //}
     });
-    $scope.client_add = function (name) {
+
+    $scope.video_select_change = video_select_change;
+    $scope.client_add = client_add;
+    $scope.client_del = client_del;
+    $scope.client_unbind = client_unbind;
+    $scope.video_add = video_add;
+    $scope.video_save = video_save;
+    $scope.video_save_cancel = video_save_cancel;
+    $scope.video_del = video_del;
+    $scope.refresh_video_list = refresh_video_list;
+
+    function refresh_video_list() {
+        $scope.$parent.initVideo();
+    }
+
+
+    function video_select_change(video){
+        console.log(video);
+        var currentitem = null;
+        for(var i = 0;i<$scope.$parent.videolist.length;i++){
+            var item = $scope.$parent.videolist[i];
+            if(item._id==video.new_id){
+                currentitem = item;
+                break;
+            }
+        }
+        if(currentitem != null && currentitem.status != "正常"){
+            video.new_id = null;
+            alert("视频正在审核, 暂时无法选择 , 请等待审核成功后点击刷新再试!");
+        }
+    }
+    function client_add (name) {
         $http.get("/client/add/" + name).then(function (resp) {
             if(resp.data.success){
                 $scope.clients.push({_id: name, name: name});
@@ -28,25 +47,32 @@ app.controller('ClientManagerCtrl', function ($scope, i18nService, $modal, $log,
                 alert(resp.data.msg);
             }
         });
-    };
+    }
 
-    $scope.client_del = function (c, idx) {
+    function  client_del(c, idx) {
         if ($window.confirm("确定删除设备\"" + c._id + "\"吗?") == 1) {
             $http.get("/client/del/" + c._id).then(function (ret) {
                 $scope.clients.splice(idx, 1);
             });
         }
-    };
+    }
+    function client_unbind (c, idx) {
+        if ($window.confirm("确定解除设备\"" + c._id + "\"的绑定吗?") == 1) {
+            $http.get("/client/unbind/" + c._id).then(function (ret) {
+                $scope.clients.splice(idx, 1);
+            });
+        }
+    }
 
-    $scope.video_add = function (c) {
+    function video_add (c) {
         c.show = true;
         if (!c.videolist) {
             c.videolist = [];
         }
         c.videolist.push({show: true});
         console.log(c)
-    };
-    $scope.video_save = function (c, v,idx) {
+    }
+    function video_save (c, v,idx) {
         console.log(c, v);
         if (v.new_id && v.new_id != v._id) {
             if (!v._id) {
@@ -65,13 +91,13 @@ app.controller('ClientManagerCtrl', function ($scope, i18nService, $modal, $log,
                 v.show = false;
             }
         }
-    };
-    $scope.video_save_cancel = function (c, v) {
+    }
+    function  video_save_cancel(c, v) {
         v.new_id = v._id;
         v.show = false;
-    };
+    }
 
-    $scope.video_del = function (c, v, idx) {
+    function video_del(c, v, idx) {
         console.log(c, v, idx);
         var v = c.videolist[idx];
 

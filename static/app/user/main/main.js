@@ -13,16 +13,9 @@ angular.module('videosystem.main', ['ngRoute', 'ui.bootstrap'])
         //视频列表
         $scope.videolist = [];
         $scope.videomap = {};
-        $http.get("/video/list").then(function (ret) {
-            console.log(ret.data);
-            $scope.videolist = ret.data;
-            for (var i = 0; i < $scope.videolist.length; i++) {
-                var row = $scope.videolist[i];
-                $scope.videomap[row._id] = row;
-            }
-        });
+        $scope.initVideo = initVideo;
 
-        $scope.test = ['123', '321'];
+
         var lastActive;
         $scope.loadTab = loadTab;
         $scope.closeTab = closeTab;
@@ -40,6 +33,18 @@ angular.module('videosystem.main', ['ngRoute', 'ui.bootstrap'])
             }];
         $scope.loadTab($scope.menu[0]);
         initPage();
+
+        function initVideo(){
+            $http.get("/video/list").then(function (ret) {
+                $scope.videolist = ret.data;
+                $scope.videomap = {};
+                for (var i = 0; i < $scope.videolist.length; i++) {
+                    var row = $scope.videolist[i];
+                    $scope.videomap[row._id] = row;
+                }
+            });
+        }
+
         function closeTab(idx) {
             console.log(idx);
             console.log($scope.tabs);
@@ -92,6 +97,7 @@ angular.module('videosystem.main', ['ngRoute', 'ui.bootstrap'])
         }
 
         function initPage(){
+            initVideo();
             $("#sidebar-collapse").on('click', function () {
                 if (!$('#sidebar').is(':visible'))
                     $("#sidebar").toggleClass("hide");

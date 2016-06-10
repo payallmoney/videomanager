@@ -15,6 +15,11 @@ import (
 	"net/http"
 	"crypto/md5"
 	"fmt"
+"runtime"
+"os/exec"
+"golang.org/x/text/transform"
+"bytes"
+"golang.org/x/text/encoding/simplifiedchinese"
 )
 
 type JsonRet struct {
@@ -101,4 +106,39 @@ func ComputeMd5(filePath string) (string, error) {
 	}
 
 	return fmt.Sprintf("%x",hash.Sum(result)), nil
+}
+func Cmd(cmdstr string) (string ,error){
+	var commond string
+	var param1 string
+	if runtime.GOOS == "windows" {
+		// "wmic cpu get ProcessorId /format:csv"
+		commond = "cmd"
+		param1 ="/c"
+	}else {
+		commond = "bash"
+		param1 ="-c"
+	}
+	cmd := exec.Command(commond, param1 ,cmdstr)
+	output, err := cmd.CombinedOutput()
+
+	if runtime.GOOS == "windows" {
+		log.Println("999999999999999999999")
+
+		reader := transform.NewReader(bytes.NewReader(output), simplifiedchinese.GBK.NewDecoder())
+		outputstr, encodeerr := ioutil.ReadAll(reader)
+		CheckErr(encodeerr)
+		//reader = transform.NewReader(bytes.NewReader(errs), simplifiedchinese.GBK.NewDecoder())
+		//errstr, err := ioutil.ReadAll(reader)
+		//CheckErr(err)
+		log.Println(string(outputstr))
+		//log.Println(string(errstr))
+
+		return string(outputstr), err
+	}else{
+		log.Println("101010101010")
+
+		log.Println(string(output))
+		//log.Println(string(errs))
+		return string(output), err
+	}
 }

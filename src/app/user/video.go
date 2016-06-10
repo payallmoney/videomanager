@@ -14,6 +14,8 @@ import (
 	"github.com/satori/go.uuid"
 	"io"
 	"log"
+	"runtime"
+	"strings"
 )
 
 func clients(r render.Render, db *mgo.Database, params martini.Params, req *http.Request, w http.ResponseWriter,session sessions.Session,) {
@@ -78,8 +80,8 @@ func videoupload(r render.Render, params martini.Params, req *http.Request, w ht
 			newfilename = uuid.NewV4().String() + ext
 		}
 		fmt.Println(dir + "/static/uploadvideo/" + newfilename)
-		filepath :=dir + "/static/uploadvideo/" + newfilename
-		dst, _ := os.Create(filepath)
+		realpath :=dir + "/static/uploadvideo/" + newfilename
+		dst, _ := os.Create(realpath)
 
 		defer dst.Close()
 		if _, err := io.Copy(dst, file); err != nil {
@@ -87,14 +89,59 @@ func videoupload(r render.Render, params martini.Params, req *http.Request, w ht
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
-		hash , _:=util.ComputeMd5(filepath)
+
 		id := bson.NewObjectId()
-		obj := bson.M{"_id":id,"user": session.Get("user_userid"), "name":newfilename,"hash":hash, "src":"/uploadvideo/" + newfilename}
+		obj := bson.M{"_id":id,
+			"user": session.Get("user_userid"),
+			"name":files[i].Filename[0:len(files[i].Filename)-len(ext)],
+			"hash":nil,
+			"status":"正在转换",
+			"src":"/uploadvideo/" + newfilename}
 		db.C("video_list").Insert(obj)
 		filenames = append(filenames, util.Js(obj))
+		//进行转换
+		go convertVideo( id,newfilename,db)
 	}
 	r.JSON(200, filenames)
 }
+func convertVideo(id bson.ObjectId,filename string, db *mgo.Database) bson.M{
+	dir, err := filepath.Abs(filepath.Dir(os.Args[0]))
+	util.CheckErr(err)
+	path := dir+"/static/uploadvideo/"
+	if runtime.GOOS == "windows" {
+		path = strings.Replace(path,"/","\\",-1);
+	}
+	var strs string
+
+	if runtime.GOOS == "windows" {
+		cmd:=fmt.Sprintf("cd /d %s && HandBrakeCLI -i %s -o %s -q 14 -e x264",path,filename,filename+".mp4")
+		strs,err  = util.Cmd(cmd)
+	}else {
+		cmd:=fmt.Sprintf("cd %s & HandBrakeCLI -i %s -o %s -q 14 -e x264",path,filename,filename+".mp4")
+		strs,err  = util.Cmd(cmd)
+	}
+
+	if err !=nil{
+		db.C("video_list").Update(bson.M{"_id":id},bson.M{"_id":bson.M{"status":"转换失败","convertinfo":strs}})
+		return bson.M{"status":"转换失败","convertinfo":fmt.Sprintf("%v\r\n%v",err,strs)}
+	}else{
+		hash , _:=util.ComputeMd5(path+filename+".mp4")
+		db.C("video_list").Update(bson.M{"_id":id},bson.M{"$set":bson.M{"status":"正常","convertinfo":strs,"hash":hash}})
+
+		return bson.M{"status":"转换成功","convertinfo":string(strs)}
+	}
+}
+
+func convert(r render.Render, params martini.Params, req *http.Request, w http.ResponseWriter, db *mgo.Database, ) {
+	var result  bson.M
+	db.C("video_list").Find(bson.M{"_id": bson.ObjectIdHex(params["id"])}).One(&result);
+	if result !=nil  {
+		r.JSON(200, bson.M{"status":"转换出错!","msg":"找不到文件!"})
+	}else{
+		r.JSON(200, convertVideo(bson.ObjectIdHex(params["id"]),result["src"].(string)[14:],db))
+	}
+}
+
 
 func del(r render.Render, params martini.Params, req *http.Request, w http.ResponseWriter, db *mgo.Database, ) {
 	db.C("video_list").Remove(bson.M{"_id": bson.ObjectIdHex(params["id"])});
@@ -123,6 +170,9 @@ func client_add(r render.Render, params martini.Params, req *http.Request, w htt
 func client_del(r render.Render, params martini.Params, req *http.Request, w http.ResponseWriter, db *mgo.Database) {
 	db.C("video_client").Remove(bson.M{"_id": params["id"]})
 }
+func client_unbind(r render.Render, params martini.Params, req *http.Request, w http.ResponseWriter, db *mgo.Database) {
+	db.C("video_client").Update(bson.M{"_id": params["id"]}, bson.M{"$set":bson.M{"user":nil}})
+}
 
 
 
@@ -131,6 +181,7 @@ func client_video_add(r render.Render, params martini.Params, req *http.Request,
 	result := bson.M{}
 	db.C("video_list").Find(bson.M{"_id": bson.ObjectIdHex(params["videoid"])}).One(&result);
 	str, _ := result["src"].(string)
+	str = str+".mp4"
 	hash, _ := result["hash"].(string)
 	db.C("video_client").Update(bson.M{"_id": params["id"]}, bson.M{"$push":bson.M{"videolist":bson.M{"_id":params["videoid"], "src":str,"hash":hash}}})
 }

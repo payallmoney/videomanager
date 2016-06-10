@@ -12,8 +12,9 @@
                     </div>
                     <!--&nbsp;是否调试：<input ng-model="c.debug">-->
                     <!--&nbsp;js版本：<input ng-model="c.version">-->
-                    <a class="btn btn-sm btn-blue" ng-click="video_add(c,v)">增加视频</a> <a class="btn btn-sm btn-danger "
-                                                                                         ng-click="client_del(c,$index)">删除设备</a>
+                    <a class="btn btn-sm btn-blue" ng-click="video_add(c,v)">增加视频</a>
+                    <a class="btn btn-sm btn-danger " ng-click="client_unbind(c,$index)">设备解除绑定</a>
+                    <a class="btn btn-sm btn-danger " ng-click="refresh_video_list()">刷新</a>
                 </div>
                 <div ng-show="c.show" style="background-color: white;">
                     <ul style="line-height: 25px;list-style: decimal;">
@@ -24,8 +25,8 @@
                             </span>
 
                             <div ng-show="v.show" style="display: inline-block;">
-                                <select ng-model="v.new_id">
-                                    <option ng-repeat=" item in  $parent.videolist" value="{{item._id}}">{{item.name}}
+                                <select ng-model="v.new_id" ng-change="video_select_change(v)" >
+                                    <option ng-repeat=" item in  $parent.videolist" value="{{item._id}}">{{item.name+" 【"+(item.status !='正常'?'正在审核':'正常')+"】"}}
                                     </option>
                                 </select>
                                 <button style="width:50px;" ng-click="video_save(c,v,$index)">确定</button>

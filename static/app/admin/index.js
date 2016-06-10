@@ -23,7 +23,6 @@ var app =
                 Auth = $injector.get('Auth');
                 $http = $injector.get('$http');
                 $location = $injector.get('$location');
-
             });
 
             return {

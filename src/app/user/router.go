@@ -33,6 +33,8 @@ func Router(m martini.Router) {
 
 	m.Any("/video/list", videolist)
 	m.Any("/video/del/:id", del)
+
+	m.Any("/video/convert/:id", convert)
 	m.Any("/video/changename/:id/:name", changename)
 	//客户端
 
@@ -44,6 +46,7 @@ func Router(m martini.Router) {
 	m.Any("/client/videochange/:id/:idx/:videoid", client_video_change)
 	m.Any("/client/videodel/:id/:idx", client_video_del)
 	m.Any("/client/del/:id", client_del)
+	m.Any("/client/unbind/:id", client_unbind)
 
 }
 
