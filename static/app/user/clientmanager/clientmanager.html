@@ -20,7 +20,7 @@
                     <ul style="line-height: 25px;list-style: decimal;">
                         <li ng-repeat="v in c.videolist track by $index">
                             <i class="icon glyphicon glyphicon-film"></i>
-                            <span ng-click="v.show = true;" ng-show="!v.show" style="cursor: pointer;">
+                            <span ng-click="v.show = true;" ng-show="!v.show" style="cursor: pointer;min-width:200px;display: inline-block;">
                                 {{$parent.videomap[v._id].name}}
                             </span>
 
