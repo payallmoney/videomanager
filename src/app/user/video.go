@@ -118,6 +118,9 @@ func convertVideo(id bson.ObjectId,filename string, db *mgo.Database) bson.M{
 		strs,err  = util.Cmd(cmd)
 	}else {
 		cmd:=fmt.Sprintf("cd %s & HandBrakeCLI -i %s -o %s -q 14 -e x264",path,filename,filename+".mp4")
+		log.Println("=================================================")
+		log.Println(cmd)
+		log.Println("=================================================")
 		strs,err  = util.Cmd(cmd)
 	}
 
