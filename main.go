@@ -15,6 +15,7 @@ import (
 	"github.com/payallmoney/videomanager/src/app/admin"
 	"github.com/payallmoney/videomanager/src/app/user"
 	"github.com/payallmoney/videomanager/src/app/worker"
+	"github.com/payallmoney/videomanager/src/app/verifyer"
 	"log"
 	"reflect"
 )
@@ -58,6 +59,8 @@ func main() {
 	//需要权限的内容
 	m.Group("/admin", admin.Router,admin.Auth)
 	m.Group("/worker", worker.Router,worker.Auth)
+	m.Group("/verifyer", verifyer.Router,verifyer.Auth)
+	m.Group("/test", verifyer.Router,verifyer.Auth)
 	m.Group("", user.Router,user.Auth)
 	m.Run();
 	//m.RunOnAddr(":3333")

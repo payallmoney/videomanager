@@ -1,0 +1,25 @@
+<link href="/lib/fileinput/fileinput.min.css" rel="stylesheet">
+<script src="/lib/fileinput/fileinput.js"></script>
+<div class="fill" ng-controller="VideoManagerCtrl" id="VideoManagerCtrl" style="overflow-y: scroll;">
+
+    <div style="padding:20px;">
+        <div class="videocontainer">
+            <div ng-repeat="c in $parent.videolist" class='videoborder'>
+                <div>
+                    <span ng-click="c.show=true;c.newname=c.name;" ng-show="!c.show" class="videoname">{{c.name}}</span>
+                    <div ng-show="c.show" class="changename" ><input ng-model="c.newname" class="changename"><button style="width:50px;" ng-click="change_name(c)" >确定</button><button style="width:50px;" ng-click="change_name_cancel(c)" >取消</button></div>
+                    <span>
+                        <video width="100%" height="160px" controls="" preload="none">
+                            <source src="{{c.src}}" type="video/mp4">
+                            <div class="file-preview-other">
+                                <i class="glyphicon glyphicon-file"></i>
+                            </div>
+                        </video>
+                    </span>
+                    <a class="btn btn-sm btn-danger " ng-click="video_del(c,$index)">删除视频</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

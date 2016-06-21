@@ -57,6 +57,10 @@ func Router(m martini.Router) {
 	m.Any("/worker/add", worker_add)
 	m.Any("/worker/del", worker_del)
 
+	m.Any("/verifyers", verifyers)
+	m.Any("/verifyer/add", verifyer_add)
+	m.Any("/verifyer/del", verifyer_del)
+
 	m.Any("/users", users)
 	m.Any("/user/add", user_add)
 	m.Any("/user/del", user_del)

@@ -275,26 +275,80 @@ li.jstree-leaf > a > i.jstree-icon.jstree-themeicon {
     color: #827979;
 }
 
-.closeX:hover{
+.closeX:hover {
     color: #fff;
     background-color: #E0594F;
     border-radius: 15px;
 }
-div.qr-mini{
+
+div.qr-mini {
     position: absolute;
-    right:180px;
-    top:12px;
+    right: 180px;
+    top: 12px;
 }
 
-div.qr-mini:hover + div.qr-big{
+div.qr-mini:hover + div.qr-big {
     display: block;
 }
 
-div.qr-big{
+div.qr-big {
     position: absolute;
-    right:100px;
-    top:40px;
+    right: 100px;
+    top: 40px;
     display: none;
     background-color: #2dc3e8;
-    padding:20px;
+    padding: 20px;
+}
+
+div.changename {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    height: 26px;
+}
+
+div.changename > button {
+    flex: 0 0 auto;
+}
+
+input.changename {
+    flex: 10;
+    width: 20px;
+
+}
+
+div.videocontainer {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    box-sizing: content-box;
+}
+
+div.videoborder {
+    flex: 0 0 25%;
+    width: 25%;
+    height: 230px;
+    float: left;
+    text-align: center;
+    box-sizing: border-box;
+    padding: 5px;
+}
+
+div.videoborder > div {
+    border: 1px solid #ccc;
+    padding: 5px;
+    background-color: gainsboro;
+    cursor: pointer;
+    box-sizing: border-box;
+}
+
+span.videoname {
+    font-weight: bold;
+    width: 100%;
+    display: inline-block;
+    overflow: hidden;
+    height: 22px;
 }

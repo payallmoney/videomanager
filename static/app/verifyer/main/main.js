@@ -2,7 +2,8 @@
 
 angular.module('videosystem.main', ['ngRoute', 'ui.bootstrap'])
     .controller('MainCtrl', function ($scope, Auth, $location, $q, $http, $sce) {
-        $scope.username = Auth.getUserName();
+        $scope.userInfo = Auth.userinfo;
+        $scope.username = $scope.userInfo.name;
         $scope.tabs = [];
         $scope.activetext = '';
         var init = $q.defer();
@@ -12,59 +13,33 @@ angular.module('videosystem.main', ['ngRoute', 'ui.bootstrap'])
         //视频列表
         $scope.videolist = [];
         $scope.videomap = {};
-        $http.get("/admin/video/list").then(function (ret) {
-            console.log(ret.data);
-            $scope.videolist = ret.data;
-            for (var i = 0; i < $scope.videolist.length; i++) {
-                var row = $scope.videolist[i];
-                row.src = $sce.trustAsUrl('/uploadvideo/' + row._id);
-                $scope.videomap[row._id] = row;
-            }
-        });
+        $scope.initVideo = initVideo;
 
-        $scope.test = ['123', '321'];
+
         var lastActive;
         $scope.loadTab = loadTab;
         $scope.closeTab = closeTab;
 
         $scope.menu = [
             {
-                "text": '视频管理',
-                "js": "/app/admin/videomanager/videomanager.js",
-                'html': '/app/admin/videomanager/videomanager.html'
-            },
-            {
-                "text": '客户端管理',
-                "js": "/app/admin/clientmanager/clientmanager.js",
-                'html': '/app/admin/clientmanager/clientmanager.html'
-            },
-            {
-                "text": '客户端程序管理',
-                "js": "/app/admin/program/page.js",
-                'html': '/app/admin/program/page.html'
-            },
-            {
-                "text": '工作人员管理',
-                "js": "/app/admin/worker/page.js",
-                'html': '/app/admin/worker/page.html'
-            },
-            {
-                "text": '用户管理',
-                "js": "/app/admin/user/page.js",
-                'html': '/app/admin/user/page.html'
-            },
-            {
-                "text": '管理员管理',
-                "js": "/app/admin/admin/page.js",
-                'html': '/app/admin/admin/page.html'
-            },
-            {
-                "text": '审核人员管理',
-                "js": "/app/admin/verifyer/page.js",
-                'html': '/app/admin/verifyer/page.html'
+                "text": '视频审核',
+                "js": "/app/verifyer/videomanager/videomanager.js",
+                'html': '/app/verifyer/videomanager/videomanager.html'
             }];
         $scope.loadTab($scope.menu[0]);
         initPage();
+
+        function initVideo(){
+            $http.get("/video/list").then(function (ret) {
+                $scope.videolist = ret.data;
+                $scope.videomap = {};
+                for (var i = 0; i < $scope.videolist.length; i++) {
+                    var row = $scope.videolist[i];
+                    $scope.videomap[row._id] = row;
+                }
+            });
+        }
+
         function closeTab(idx) {
             console.log(idx);
             console.log($scope.tabs);
@@ -117,6 +92,7 @@ angular.module('videosystem.main', ['ngRoute', 'ui.bootstrap'])
         }
 
         function initPage(){
+            initVideo();
             $("#sidebar-collapse").on('click', function () {
                 if (!$('#sidebar').is(':visible'))
                     $("#sidebar").toggleClass("hide");
@@ -144,6 +120,8 @@ angular.module('videosystem.main', ['ngRoute', 'ui.bootstrap'])
                 }
                 //Slim Scroll Handle
             });
+            //$("#qr-mini").qrcode({"size":30,text:$scope.username});
+
         }
 
 

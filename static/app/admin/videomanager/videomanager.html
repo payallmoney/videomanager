@@ -42,14 +42,13 @@
             });
         </script>
 
-        <div style="list-style: none;padding: 0;">
-            <div ng-repeat="c in $parent.videolist"
-                 style="width:320px;height:230px;float:left;text-align: center;padding:5px;">
-                <div style="border:1px solid #ccc;padding:5px;background-color: gainsboro;cursor: pointer;">
-                    <span ng-click="c.show=true;c.newname=c.name;" ng-show="!c.show" style="font-weight: bold;width:100%;display: inline-block;">{{c.name}}</span>
-                    <div ng-show="c.show" ><input ng-model="c.newname" style="width:190px;"><button style="width:50px;" ng-click="change_name(c)" >确定</button><button style="width:50px;" ng-click="change_name_cancel(c)" >取消</button></div>
+        <div class="videocontainer">
+            <div ng-repeat="c in $parent.videolist" class='videoborder'>
+                <div>
+                    <span ng-click="c.show=true;c.newname=c.name;" ng-show="!c.show" class="videoname">{{c.name}}</span>
+                    <div ng-show="c.show" class="changename" ><input ng-model="c.newname" class="changename"><button style="width:50px;" ng-click="change_name(c)" >确定</button><button style="width:50px;" ng-click="change_name_cancel(c)" >取消</button></div>
                     <span>
-                        <video width="300px" height="160px" controls="" preload="none">
+                        <video width="100%" height="160px" controls="" preload="none">
                             <source src="{{c.src}}" type="video/mp4">
                             <div class="file-preview-other">
                                 <i class="glyphicon glyphicon-file"></i>
