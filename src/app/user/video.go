@@ -129,7 +129,7 @@ func convertVideo(id bson.ObjectId,filename string, db *mgo.Database) bson.M{
 		return bson.M{"status":"转换失败","convertinfo":fmt.Sprintf("%v\r\n%v",err,strs)}
 	}else{
 		hash , _:=util.ComputeMd5(path+filename+".mp4")
-		db.C("video_list").Update(bson.M{"_id":id},bson.M{"$set":bson.M{"status":"正常","convertinfo":strs,"hash":hash}})
+		db.C("video_list").Update(bson.M{"_id":id},bson.M{"$set":bson.M{"status":"等待审核","convertinfo":strs,"hash":hash}})
 
 		return bson.M{"status":"转换成功","convertinfo":string(strs)}
 	}

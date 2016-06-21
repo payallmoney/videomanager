@@ -29,8 +29,8 @@ angular.module('videosystem.main', ['ngRoute', 'ui.bootstrap'])
         $scope.loadTab($scope.menu[0]);
         initPage();
 
-        function initVideo(){
-            $http.get("/video/list").then(function (ret) {
+        function initVideo(param){
+            $http.get("/verifyer/video/list",{params:param}).then(function (ret) {
                 $scope.videolist = ret.data;
                 $scope.videomap = {};
                 for (var i = 0; i < $scope.videolist.length; i++) {
@@ -92,7 +92,7 @@ angular.module('videosystem.main', ['ngRoute', 'ui.bootstrap'])
         }
 
         function initPage(){
-            initVideo();
+            initVideo({status: '等待审核'});
             $("#sidebar-collapse").on('click', function () {
                 if (!$('#sidebar').is(':visible'))
                     $("#sidebar").toggleClass("hide");

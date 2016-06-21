@@ -338,6 +338,7 @@ div.videoborder {
 }
 
 div.videoborder > div {
+    position: relative;
     border: 1px solid #ccc;
     padding: 5px;
     background-color: gainsboro;
@@ -351,4 +352,30 @@ span.videoname {
     display: inline-block;
     overflow: hidden;
     height: 22px;
+}
+div.videostatus{
+    width: 100%;
+    display: inline-block;
+
+}
+
+div.videostatus>span{
+    color:red;
+}
+div.querypanel{
+    width:100%;
+}
+div.order{
+    position: absolute;
+    left:5px;
+    top:5px;
+    width:30px;
+    height:30px;
+    display: inline-block;
+    background-color: #0b3e6f;
+    color: #fff;
+    text-align: center;
+    line-height: 30px;
+    border-radius: 15px;
+    font-weight:bold;
 }

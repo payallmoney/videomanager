@@ -34,8 +34,16 @@ func clients(r render.Render, db *mgo.Database, params martini.Params, req *http
 
 func videolist(r render.Render, db *mgo.Database, params martini.Params, req *http.Request, w http.ResponseWriter,session sessions.Session,) {
 	//w.Header().Set("Access-Control-Allow-Origin", "*")
+	req.ParseForm();
+	log.Println("====================",req.Form["status"]);
+	status :=req.Form["status"][0]
 	result := []bson.M{}
-	db.C("video_list").Find(bson.M{"user": session.Get("user_userid")}).All(&result)
+	//db.C("video_list").Find(bson.M{"status": "等待审核"}).All(&result)
+	if(status=="全部"){
+		db.C("video_list").Find(bson.M{}).All(&result)
+	}else{
+		db.C("video_list").Find(bson.M{"status":status}).All(&result)
+	}
 	r.JSON(200, result)
 }
 
@@ -148,6 +156,12 @@ func convert(r render.Render, params martini.Params, req *http.Request, w http.R
 
 func del(r render.Render, params martini.Params, req *http.Request, w http.ResponseWriter, db *mgo.Database, ) {
 	db.C("video_list").Remove(bson.M{"_id": bson.ObjectIdHex(params["id"])});
+	r.JSON(200, nil)
+}
+
+func verify(r render.Render, params martini.Params, req *http.Request, w http.ResponseWriter, db *mgo.Database, ) {
+	//db.C("video_list").Remove(bson.M{"_id": bson.ObjectIdHex(params["id"])});
+	db.C("video_list").Update(bson.M{"_id": bson.ObjectIdHex(params["id"])}, bson.M{"$set":bson.M{"status":"正常"}})
 	r.JSON(200, nil)
 }
 

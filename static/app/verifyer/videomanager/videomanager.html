@@ -3,20 +3,45 @@
 <div class="fill" ng-controller="VideoManagerCtrl" id="VideoManagerCtrl" style="overflow-y: scroll;">
 
     <div style="padding:20px;">
+        <div class="querypanel">
+            视频状态: <select ng-model="query.status">
+                <option value="全部">全部</option>
+                <option value="正在转换">正在转换</option>
+                <option value="转换失败">转换失败</option>
+                <option vlaue="等待审核">等待审核</option>
+                <option value="正常">正常</option>
+            </select>
+            <a class="btn btn-sm btn-blue " ng-click="queryvideo()">查询</a>
+
+        </div>
         <div class="videocontainer">
-            <div ng-repeat="c in $parent.videolist" class='videoborder'>
+            <div ng-repeat="c in $parent.videolist" class='videoborder' style="height:420px;">
                 <div>
-                    <span ng-click="c.show=true;c.newname=c.name;" ng-show="!c.show" class="videoname">{{c.name}}</span>
-                    <div ng-show="c.show" class="changename" ><input ng-model="c.newname" class="changename"><button style="width:50px;" ng-click="change_name(c)" >确定</button><button style="width:50px;" ng-click="change_name_cancel(c)" >取消</button></div>
-                    <span>
-                        <video width="100%" height="160px" controls="" preload="none">
-                            <source src="{{c.src}}" type="video/mp4">
-                            <div class="file-preview-other">
-                                <i class="glyphicon glyphicon-file"></i>
-                            </div>
-                        </video>
+                    <div class="order">{{$index+1}}</div>
+                    <span class="videoname">{{c.name}}</span>
+                    <div class="videostatus">视频状态:<span>{{c.status}}</span></div>
+                    <span style="display: flex;flex-direction: column;">
+                        <div style="flex: 1;display: flex;">
+                            <div style="flex: 0 0 auto;width:10px;">原始视频</div>
+                            <video style="flex:1" width="100%" height="160px" controls="" preload="none">
+                                <source src="{{c.src}}" type="video/mp4">
+                                <div class="file-preview-other">
+                                    <i class="glyphicon glyphicon-file"></i>
+                                </div>
+                            </video>
+                        </div>
+                        <div style="flex: 1;display: flex;">
+                            <div style="flex: 0 0 auto;width:10px;">转换视频</div>
+                            <video style="flex:1" width="100%" height="160px" controls="" preload="none">
+                                <source src="{{c.src+'.mp4'}}" type="video/mp4">
+                                <div class="file-preview-other">
+                                    <i class="glyphicon glyphicon-file"></i>
+                                </div>
+                            </video>
+                        </div>
                     </span>
-                    <a class="btn btn-sm btn-danger " ng-click="video_del(c,$index)">删除视频</a>
+                    <a ng-show="c.status=='等待审核'" class="btn btn-sm btn-danger " ng-click="video_verify(c,$index)">审核视频</a>
+                    <div ng-show="c.status !='等待审核'" style="height:26px;line-height: 26px;" >提示:<span style="color:green;">只有等待审核的视频显示审核按钮!</span></div>
                 </div>
             </div>
         </div>

@@ -8,7 +8,10 @@ angular.module('videosystem.filters', [])
         };
     }).filter('substr',  function() {
         return function(datetext,start,end) {
-            return datetext.substring(0,10);
+            if(end<0){
+                end = datetext.length +end;
+            }
+            return datetext.substring(start,end);
         };
     }).filter('status',  function() {
         return function(status) {

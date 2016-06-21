@@ -31,8 +31,8 @@ func Router(m martini.Router) {
 	//视频
 	//m.Any("/video/upload", videoupload)
 	//
-	//m.Any("/video/list", videolist)
-	//m.Any("/video/del/:id", del)
+	m.Any("/video/list", videolist)
+	m.Any("/video/verify/:id", verify)
 	//
 	//m.Any("/video/convert/:id", convert)
 	//m.Any("/video/changename/:id/:name", changename)
