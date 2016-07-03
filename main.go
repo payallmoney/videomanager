@@ -18,6 +18,7 @@ import (
 	"github.com/payallmoney/videomanager/src/app/verifyer"
 	"log"
 	"reflect"
+	"time"
 )
 
 
@@ -48,6 +49,7 @@ func main() {
 
 	m.Any("/test", test)
 	m.Any("/client/reg/:id", reg)
+	m.Any("/client/status/:id", status)
 	m.Any("/client/active/:id", active)
 	m.Any("/video/list/:id", clientlist)
 	m.Any("/client/status/:id", client_status)
@@ -106,6 +108,12 @@ func reg(r render.Render, params martini.Params, req *http.Request, w http.Respo
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	db.C("video_client").Insert(bson.M{"_id": params["id"]})
 	r.JSON(200, "注册成功")
+}
+
+func status(r render.Render, params martini.Params, req *http.Request, w http.ResponseWriter, db *mgo.Database) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	db.C("client_status_log").Insert(bson.M{"client_id": params["id"],"reportTime":time.Now()})
+	r.JSON(200, "状态更新成功")
 }
 
 func active(r render.Render, params martini.Params, req *http.Request, w http.ResponseWriter, db *mgo.Database) {

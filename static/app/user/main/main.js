@@ -30,6 +30,11 @@ angular.module('videosystem.main', ['ngRoute', 'ui.bootstrap'])
                 "text": '客户端管理',
                 "js": "/app/user/clientmanager/clientmanager.js",
                 'html': '/app/user/clientmanager/clientmanager.html'
+            },
+            {
+                "text": '客户端状态',
+                "js": "/app/user/clientstatus/page.js",
+                'html': '/app/user/clientstatus/page.html'
             }];
         $scope.loadTab($scope.menu[0]);
         initPage();

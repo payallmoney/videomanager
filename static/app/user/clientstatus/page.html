@@ -1,0 +1,14 @@
+<div class="fill" ng-controller="ClientStatusCtrl" style="overflow-y: scroll;">
+    <a class="btn btn-sm btn-blue" ng-click="queryClients()" style="margin:10px 0 0 10px;">刷新</a>
+    <div class="clientcontainer ">
+        <div ng-repeat="c in clients" class='clientborder'>
+            <div>
+            设备ID：{{c._id}}<br>
+            设备状态:
+            <span style="color:{{c.status=='在线'?'green':'red'}}">{{c.status}}</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+

@@ -16,6 +16,7 @@ import (
 	"log"
 	"runtime"
 	"strings"
+	"time"
 )
 
 func clients(r render.Render, db *mgo.Database, params martini.Params, req *http.Request, w http.ResponseWriter,session sessions.Session,) {
@@ -26,6 +27,22 @@ func clients(r render.Render, db *mgo.Database, params martini.Params, req *http
 		list := bson.M{}
 		db.C("video_list").Find(bson.M{"_id":value["id"]}).One(&list)
 		value["list"] = list["videolist"];
+		status := bson.M{}
+		log.Println("id===="+value["_id"].(string))
+		db.C("client_status_log").Find(bson.M{"client_id":value["_id"].(string)}).Sort("-reportTime").Limit(1).One(&status)
+		if(status["reportTime"]!=nil){
+			reportTime := status["reportTime"].(time.Time)
+			log.Println(reportTime.Format("2006-01-02 15:04:05.000"))
+			log.Println(time.Now().Add(-time.Minute*3).Format("2006-01-02 15:04:05.000"))
+			if reportTime.Before(time.Now().Add(-time.Minute*3)){
+				value["status"] = "离线";
+			}else{
+				value["status"] = "在线";
+			}
+		}else{
+			log.Println("....nil...")
+			value["status"] = "离线";
+		}
 	}
 	r.JSON(200, result)
 }
