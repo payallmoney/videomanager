@@ -10,7 +10,7 @@ angular.module('myApp.version.version-directive', [])
 
     return {
         restrict: 'E',
-        template: '<div class="qr-mini"><a style="cursor: pointer;text-decoration: none;color: #fff;">显示二维码</a></div><div class="qr-big"></div>',
+        template: '<div class="qr-mini"><a class="qr"><span class="qr-small"></span>二维码</a></div><div class="qr-big"></div>',
         link: link
     };
 
@@ -20,6 +20,7 @@ angular.module('myApp.version.version-directive', [])
             Auth.setlogin(true);
             Auth.setUserName(data.name);
             $(element).find(".qr-big").qrcode({"size":200,text:"user:"+data.userid});
+            $(element).find(".qr-small").qrcode({"size":20,text:"user:"+data.userid});
         });
 
         element.on('$destroy', function () {
