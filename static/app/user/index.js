@@ -12,6 +12,10 @@ var app =
         'ui.utils',
         'cfp.loadingBar',
         'videosystem.login',
+        'videosystem.about',
+        'videosystem.solution',
+        'videosystem.clients',
+        'videosystem.link',
         'videosystem.register',
         'videosystem.main',
         'videosystem.filters',
@@ -59,8 +63,20 @@ var app =
         }).when('/register', {
             templateUrl: '/app/user/register/page.html',
             controller: 'RegisterCtrl'
+        }).when('/about', {
+            templateUrl: '/app/user/about/page.html',
+            controller: 'AboutCtrl'
+        }).when('/link', {
+            templateUrl: '/app/user/link/page.html',
+            controller: 'LinkCtrl'
+        }).when('/solution', {
+            templateUrl: '/app/user/solution/page.html',
+            controller: 'SolutionCtrl'
+        }).when('/clients', {
+            templateUrl: '/app/user/clients/page.html',
+            controller: 'ClientsCtrl'
         });
-        $routeProvider.otherwise({redirectTo: '/login'});
+        $routeProvider.otherwise({redirectTo: '/about'});
     }]).config(function ($controllerProvider, $compileProvider, $filterProvider, $provide) {
         app.controller = $controllerProvider.register;
     }).factory('Auth', function ($http, $location, $q) {

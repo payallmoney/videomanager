@@ -1,3 +1,6 @@
+body{
+    min-width: 1320px;
+}
 .main-container.fill {
     top: 80px;
 }
@@ -451,7 +454,7 @@ div.clientborder > div {
     background-repeat: repeat-x;
 }
 .login-panel{
-    padding-top:77px;
+    padding-top:112px;
 }
 .navbar-container>div{
     height:77px;
@@ -532,4 +535,12 @@ div.navbar-account{
 }
 .navbar .sidebar-collapse{
     display: none;
+}
+
+a.active{
+    color:#3ac5fc !important;
+}
+
+.login-panel>.page-container{
+    padding-top:50px;
 }
